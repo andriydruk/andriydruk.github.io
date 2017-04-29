@@ -8,7 +8,7 @@ onmain = true
 
 ### Introduction
 
-Lately, I've spent a lot of time interviewing Android developers. And I was surprised how little amount of Android devs know C language. Most of the developers know only one language and run their code only on JVM. But I will try to bust this myth:  sometimes C code can be much simpler to write and much simpler to run.
+Lately, I've spent a lot of time interviewing Android developers. And I was surprised how little amount of Android devs know C language. Most of the developers use only Java and convinced that C is too complex for their needs. But I will try to bust this myth - C code can be much simpler to write and much simpler to run.
 
 ### Toolchain
 
@@ -20,7 +20,9 @@ $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 21 --unif
 
 This command will generate toolchain for target platform 21 for ARM architecture.
 
-> Note: all commands are written on macOS and can be also used for Linux. You can try to run this tutorial on your Windows machine with [Cygwin](http://google.com) or modern [Windows bash](http://google.com)
+<div class="alert alert-info">
+  <strong>Note:</strong> all commands are written on macOS and can be also used for Linux. You can try to run this tutorial on your Windows machine with <a href="https://www.cygwin.com/">Cygwin</a> or modern <a href="https://msdn.microsoft.com/en-us/commandline/wsl/about">Windows bash</a>
+</div>
 
 ### Hello world
 
@@ -44,11 +46,13 @@ I use clang as a compiler (this is a default compiler in NDK 14). Clang is a fro
 3. Assembly
 4. Linking
 
-> Note: In compilers 'frontend' means that compiler performs preprocessing of a source file, parsing code to AST and generates intermediate code (it's stage 1 and 2). Then 'backend' optimizes this code and translates it to machine code for specific CPU architecture (stage 3) (objects file). Then a linker performs linking of executables or libraries from objects.
+<div class="alert alert-info">
+  <strong>Note:</strong> In compilers 'frontend' means that compiler performs preprocessing of a source file, parsing code to AST and generates intermediate code (it's stage 1 and 2). Then 'backend' optimizes this code and translates it to machine code for specific CPU architecture (stage 3) (objects file). Then a linker performs linking of executables or libraries from objects.
+</div>
 
 Back to practice, this command compiles .c file to object and then links it to the executable file for toolchain platform:
 
-~~~sh
+~~~bash
 /toolchain/bin/clang helloworld.c -o main
 ~~~
 
@@ -56,13 +60,13 @@ If you are running on API 21 or higher you need to set a flag for position indep
 
 > Starting from Android 4.1 (API level 16), Android's dynamic linker supports position-independent executables (PIE). From Android 5.0 (API level 21), executables require PIE. To use PIE to build your executables, set the -fPIE flag. This flag makes it harder to exploit memory corruption bugs by randomizing code location [[1]](https://developer.android.com/ndk/guides/application_mk.html). 
 
-~~~sh
+~~~bash
 ./toolchain/bin/clang helloworld.o -o main -fPIE -pie
 ~~~
 
 For running helloworld executable you need Android Device or Emulator. Copy executable and run it via adb:
 
-~~~sh
+~~~bash
 adb push ./main /data/local/tmp/
 adb shell /data/local/tmp/main
 hello, world%
@@ -94,19 +98,19 @@ float Q_rsqrt( float number )
 
 	x2 = number * 0.5F;
 	y  = number;
-	i  = * ( long * ) &y;                       // evil floating point bit level hacking
-	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+	i  = * ( long * ) &y;                     // evil floating point bit level hacking
+	i  = 0x5f3759df - ( i >> 1 );             // what the fuck?
 	y  = * ( float * ) &i;
-	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
-//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+	y  = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
+//	y  = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
 
 	return y;
 }
 ~~~
 
-Compile this strange .c file into object
+Compile this hacky .c file into object
 
-~~~sh
+~~~bash
 ./toolchain/bin/clang fast-inverse-square-root.c -c
 ~~~
 
@@ -124,7 +128,7 @@ Typical symbol types include:
 
 We will check all our artifacts (objects, libraries, executables) with `nm` utility. Let's check fast-inverse-square-root.o:
 
-~~~sh
+~~~bash
 ./toolchain/bin/arm-linux-androideabi-nm fast-inverse-square-root.o
 00000000 T Q_rsqrt
 ~~~
@@ -133,7 +137,7 @@ As mentioned above T means definition of symbol (in our case method) inside libr
 
 > The gnu ar program creates, modifies, and extracts from archives. An archive is a single file holding a collection of other files in a structure that makes it possible to retrieve the original individual files (called members of the archive). [1](https://sourceware.org/binutils/docs/binutils/ar.html)
 
-~~~sh
+~~~bash
 ./toolchain/bin/arm-linux-androideabi-ar rcs libstatic.a fast-inverse-square-root.o
 ~~~
 
@@ -141,7 +145,7 @@ You should get a libstatic.a file. You can check a list of symbols in archive th
 
 **Shared library** is more difficult, let's start from definition:
 
-> Shared libraries are libraries that are loaded by programs when they start. When a shared library is installed properly, all programs that start afterwards automatically use the new shared library. It's actually much more flexible and sophisticated than [this](), because the approach used by Linux permits you to: update libraries and still support programs that want to use older, non-backward-compatible versions of those libraries; override specific libraries or even specific functions in a library when executing a particular program; do all this while programs are running using existing libraries.
+> Shared libraries are libraries that are loaded by programs when they start. When a shared library is installed properly, all programs that start afterwards automatically use the new shared library. It's actually much more flexible and sophisticated than this, because the approach used by Linux permits you to: update libraries and still support programs that want to use older, non-backward-compatible versions of those libraries; override specific libraries or even specific functions in a library when executing a particular program; do all this while programs are running using existing libraries.
 
 Since Android API 23 NDK supports dylib SONAME. 
 
@@ -163,13 +167,13 @@ float rsqrt( float number )
 
 Let's build shared library:
 
-~~~sh
+~~~bash
 ./toolchain/bin/clang -shared -o libdynamic.so -Xlinker -soname=libdynamic.so standart-inverse-square-root.c
 ~~~
 
 You should get libdynamic.so. Let's check it with nm:
 
-~~~sh
+~~~bash
 ../toolchain/bin/arm-linux-androideabi-nm -D libdynamic.so
 0000144c A __bss_start
          U __cxa_atexit
@@ -191,7 +195,7 @@ Now check the header of the shared library. For this purpose, we can use readelf
 
 The biggest advantages of using ELF - it's independence from CPU, ABI or operation system and can be used anywhere for checking any ELF object. If you have gcc tools preinstalled you can use sysytem `readelf`. For macOS user I can recommend `brew install greadelf`
 
-~~~sh
+~~~bash
 greadelf -d libdynamic.so | grep -E 'NEEDED|SONAME'
 
  0x00000001 (NEEDED)                     Shared library: [libdl.so]
@@ -201,7 +205,7 @@ greadelf -d libdynamic.so | grep -E 'NEEDED|SONAME'
 
 As you can see in libdynamic.so header contains soname identical to filename and has 2 dependencies to system libs: libdl and libc. But also we need to link math library here, because of unresolved `sqrtf` symbol. To do it just add `-lm` flag
 
-~~~sh
+~~~bash
 ./toolchain/bin/clang -shared -o libdynamic.so -Xlinker -soname=libdynamic.so -lm standart-inverse-square-root.c
 greadelf -d libdynamic.so | grep -E 'NEEDED|SONAME'
  0x00000001 (NEEDED)                     Shared library: [libm.so]
@@ -229,7 +233,7 @@ int main() {
 
 First, try to compile helloworld.c:
 
-~~~sh
+~~~bash
 ./toolchain/bin/clang -o helloworld helloworld.c
 helloworld.c:function main: error: undefined reference to 'Q_rsqrt'
 helloworld.c:function main: error: undefined reference to 'rsqrt'
@@ -238,13 +242,13 @@ clang38: error: linker command failed with exit code 1 (use -v to see invocation
 
 Linker said that there are no `Q_rsqrt` and `rsqrt`. Try to link against libraries:
 
-~~~sh
+~~~bash
 ./toolchain/bin/clang -L./ -o helloworld helloworld.c libstatic.a libdynamic.so -fPIE -pie
 ~~~
 
 Time to run this on the device. Besides running executable command line application needed to specify LD_LIBRARY_PATH (the path where executable should look for dynamic libraries):
 
-~~~sh
+~~~bash
 adb push ./libdynamic.so /data/local/tmp
 adb push ./helloworld /data/local/tmp
 adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/helloexecutable
@@ -288,7 +292,7 @@ CMake building consists of 2 steps: generate makefiles for target platform and r
 
 Compile the project for mac:
 
-~~~sh
+~~~bash
 cmake . -Bbuild-mac # -B specify a folder for generated scripts
 cd build-mac
 cmake --build .
@@ -298,7 +302,7 @@ cmake --build .
 For Android we need to pass android.toolchain.cmake file with parameters for CMake.
 And for Android scripts will look like:
 
-~~~sh
+~~~bash
 cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake . -Bbuild-android
 cd build-android
 cmake --build .
@@ -312,7 +316,9 @@ Standard inverse square root from 42 is 0.154303
 
 As you can see CMake is a very simple tool for building cross-platform C code.
 
-> Note: Android CMake configuration provides special [flags](https://developer.android.com/ndk/guides/cmake.html) for Android such as minApi, stl, toolchain, etc.
+<div class="alert alert-info">
+  <strong>Note:</strong> Android CMake configuration provides <a href="https://developer.android.com/ndk/guides/cmake.html">special flags</a> for Android such as minApi, stl, toolchain, etc.
+</div>
 
 Now you can try something more complicated with one of the IDE that supports CMake build system (e.g. JetBrains CLion).
 
@@ -325,6 +331,4 @@ According to official documentation, Google recommends to use NDK for 2 reasons:
 
 From my point of view, C can be used for any particular code in your project except UI part and communication with a system. Also, it can be useful in the cross-platform development of shared codebase.
 
-I hope my tutorial persuaded you to stop being afraid of C code and inspired to write something on your own. My sample of cross-platform compilation is [available on Github](https://github.com/andriydruk).
-
-
+I hope my tutorial persuaded you to stop being afraid of C code and inspired to write something on your own. My sample of cross-platform compilation is [available on Github](https://github.com/andriydruk/intoduction-to-c-for-android-developers).

@@ -21,10 +21,6 @@ disqusShortname = "yetanotherandroiddeveloperblog"
   Ganalytics = "UA-67278568-1"
   logo = "img/logo.png"
   Position = "Software Mobile Engineer"
-  # Google Analytics
-  # 
-  # Add your tracking code as first value followed by a comma
-  google_analytics = ["auto", "UA-67278568-1"]
   twitter = "AndriyDruk"
   github  = "andriydruk"
   linkedin = "andriy-druk-23147344"

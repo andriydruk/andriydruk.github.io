@@ -1,13 +1,13 @@
 +++
 date = "2017-05-31T23:10:36+03:00"
-title = "Favourite talks at Google IO 2017"
+title = "My favourite talks at Google IO 2017"
 onmain = true
 
 +++
 
 ### Android general talks
 
-Well, 2 weeks have gone since Google IO and I finally finished with my list of sessions. There are general talks that I liked the most:
+Well, 2 weeks have gone since Google IO and I I've finally finished with my list of sessions. There are general talks that I liked the most:
 
 - [What's New in Android](https://www.youtube.com/watch?v=1N9KveJ-FU8)
 - [What's New in Android Development Tools](https://www.youtube.com/watch?v=Hx_rwS1NTiI)
@@ -34,7 +34,7 @@ Also I'm fan of #perfmatters that's why:
 
 ### Articles
 
-Lotta articles related to IO2017 or Android O:
+A lot of articles related to IO2017 or Android O:
 
 - [Here comes Treble: A modular base for Android](https://android-developers.googleblog.com/2017/05/here-comes-treble-modular-base-for.html)
 - [Android and Architecture](https://android-developers.googleblog.com/2017/05/android-and-architecture.html)

@@ -1,6 +1,6 @@
 +++
-date = "2017-03-07T23:10:36+03:00"
-title = "Introducation to C for Android Developers"
+date = "2017-05-01T23:10:36+03:00"
+title = "Introduction to C for Android Developers"
 image = "/img/welcome_bg.jpg"
 onmain = true
 
@@ -12,7 +12,7 @@ Lately, I've spent a lot of time interviewing Android developers. And I was surp
 
 ### Toolchain
 
-The first step is toolchain. For this tutorial, I will use a very basic set of the toolchain. I already have downloaded the latest NDK from the official website, added ANDROID_NDK environment variable, and I'm ready to create toolchain:
+The first step is toolchain. For this tutorial, I will use a very basic set of the toolchain. I already have downloaded the [latest NDK](https://developer.android.com/ndk/downloads/index.html) (r14b) from the official website, added `ANDROID_NDK` environment variable, and I'm ready to create toolchain:
 
 ~~~bash
 $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 21 --unified-headers --install-dir ./toolchain
@@ -20,13 +20,17 @@ $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 21 --unif
 
 This command will generate toolchain for target platform 21 for ARM architecture.
 
+<div class="alert alert-warning">
+ <strong>Warning:</strong> The target API level in the NDK has a very different meaning than targetSdkVersion does in Java. The NDK target API level is your app's minimum supported API level.
+</div>
+
 <div class="alert alert-info">
-  <strong>Note:</strong> all commands are written on macOS and can be also used for Linux. You can try to run this tutorial on your Windows machine with <a href="https://www.cygwin.com/">Cygwin</a> or modern <a href="https://msdn.microsoft.com/en-us/commandline/wsl/about">Windows bash</a>
+  <strong>Note:</strong> All commands are written on macOS and can be also used for Linux. You can try to run this tutorial on your Windows machine with <a href="https://www.cygwin.com/">Cygwin</a> or modern <a href="https://msdn.microsoft.com/en-us/commandline/wsl/about">Windows bash</a>
 </div>
 
 ### Hello world
 
-If you are not familiar with C I highly recommend starting from "C language" book by Kernighan and Ritchie (also known as K&R C). It's very basic but still very useful in our time. As usual, I will start from Hello world. Here's an example from this book (slightly modified for modern OS):
+If you are not familiar with C I highly recommend starting from ["The C Programming Language"](https://www.amazon.com/Programming-Language-Brian-W-Kernighan/dp/0131103628) book by Kernighan and Ritchie (also known as K&R C). It's very basic but still very useful in our time. As usual, I will start from Hello world. Here's an example from this book (slightly modified for modern OS):
 
 ~~~c
 #include <stdio.h>
@@ -39,7 +43,7 @@ int main() {
 
 Ok, next step building and running as a command line application on Android device.
 
-I use clang as a compiler (this is a default compiler in NDK 14). Clang is a frontend compiler for different languages including C and C++ that uses LLVM as backend. And a small step into a theory of compilation. In C there are 4 stages of compilation:
+I use clang compiler (this is a default compiler in NDK 14). Clang is a frontend compiler for different languages including C and C++ that uses LLVM as backend. And a small step into a theory of compilation. In C there are 4 stages of compilation:
 
 1. Preprocessing
 2. Actual compilation
@@ -58,13 +62,13 @@ Back to practice, this command compiles .c file to object and then links it to t
 
 If you are running on API 21 or higher you need to set a flag for position independent executables.
 
-> Starting from Android 4.1 (API level 16), Android's dynamic linker supports position-independent executables (PIE). From Android 5.0 (API level 21), executables require PIE. To use PIE to build your executables, set the -fPIE flag. This flag makes it harder to exploit memory corruption bugs by randomizing code location [[1]](https://developer.android.com/ndk/guides/application_mk.html). 
+> Starting from Android 4.1 (API level 16), Android's dynamic linker supports position-independent executables (PIE). From Android 5.0 (API level 21), executables require PIE. To use PIE to build your executables, set the `-fPIE flag`. This flag makes it harder to exploit memory corruption bugs by randomizing code location. <sup>[1](https://developer.android.com/ndk/guides/application_mk.html#var)</sup>
 
 ~~~bash
 ./toolchain/bin/clang helloworld.o -o main -fPIE -pie
 ~~~
 
-For running helloworld executable you need Android Device or Emulator. Copy executable and run it via adb:
+For running helloworld executable you need Android Device or Emulator. Copy executable and run it via `adb`:
 
 ~~~bash
 adb push ./main /data/local/tmp/
@@ -81,11 +85,11 @@ There are 2 types of libraries in C:
 - static
 - dynamic
 
-In this section, I will create an executable linked against libraries of both types. As an example application, I decide to create a small utility that compares results of two implementations of inverse square root: system math library and hack that [was used in Quake III](https://en.wikipedia.org/wiki/Fast_inverse_square_root#Overview_of_the_code). In the static library, I've implemented Quake III version of an inverse square root, in dynamic -  math.h version. And this executable will ask a user for an input and print both results.
+In this section, I will create an executable linked against libraries of both types. As an example application, I decide to create a small utility that compares results of two implementations of inverse square root: system math library and hack that [was used in Quake III](https://en.wikipedia.org/wiki/Fast_inverse_square_root#Overview_of_the_code). In the static library, I've implemented Quake III version of an inverse square root, in dynamic -  `math.h` version. And this executable will ask a user for an input and print both results.
 
 Let's start with the **static library**. Again, a small step in theory:
 
-> Static libraries are simply a collection of ordinary object files. This collection is created using the ar (archiver) program. Static libraries permit users to link to programs without having to recompile its code, saving recompilation time. Static libraries are often useful for developers if they wish to permit programmers to link to their library, but don't want to give the library source code.
+> Static libraries are simply a collection of ordinary object files. This collection is created using the ar (archiver) program. Static libraries permit users to link to programs without having to recompile its code, saving recompilation time. Static libraries are often useful for developers if they wish to permit programmers to link to their library, but don't want to give the library source code. <sup>[2](http://tldp.org/HOWTO/Program-Library-HOWTO/static-libraries.html)</sup>
 
 ~~~c
 #include <stdio.h>
@@ -114,9 +118,9 @@ Compile this hacky .c file into object
 ./toolchain/bin/clang fast-inverse-square-root.c -c
 ~~~
 
-This command will compile .c file into .o file (object). It's an intermediate object that will be used for creation of a static library. For deeper understanding what objects are we will use nm utility:
+This command will compile .c file into .o file (object). It's an intermediate object that will be used for creation of a static library. For deeper understanding what objects are we will use `nm` utility:
 
-> The nm command can report the list of symbols in a given library. It works on both static and shared libraries. For a given library nm can list the symbol names defined, each symbol's value, and the symbol's type. It can also identify where the symbol was defined in the source code (by filename and line number), if that information is available in the library (see the -l option). The symbol type is displayed as a letter; lowercase means that the symbol is local, while uppercase means that the symbol is global (external). 
+> The `nm` command can report the list of symbols in a given library. It works on both static and shared libraries. For a given library nm can list the symbol names defined, each symbol's value, and the symbol's type. It can also identify where the symbol was defined in the source code (by filename and line number), if that information is available in the library (see the `-l` option). The symbol type is displayed as a letter; lowercase means that the symbol is local, while uppercase means that the symbol is global (external). <sup>[3](http://tldp.org/HOWTO/Program-Library-HOWTO/miscellaneous.html)</sup>
 
 Typical symbol types include:
 
@@ -133,9 +137,9 @@ We will check all our artifacts (objects, libraries, executables) with `nm` util
 00000000 T Q_rsqrt
 ~~~
 
-As mentioned above T means definition of symbol (in our case method) inside library. Next step archive object file to .a file
+As mentioned above `T` means definition of symbol (in our case method) inside library. Next step archive object file to .a file
 
-> The gnu ar program creates, modifies, and extracts from archives. An archive is a single file holding a collection of other files in a structure that makes it possible to retrieve the original individual files (called members of the archive). [1](https://sourceware.org/binutils/docs/binutils/ar.html)
+> The gnu ar program creates, modifies, and extracts from archives. An archive is a single file holding a collection of other files in a structure that makes it possible to retrieve the original individual files (called members of the archive). <sup>[4](https://sourceware.org/binutils/docs/binutils/ar.html)</sup>
 
 ~~~bash
 ./toolchain/bin/arm-linux-androideabi-ar rcs libstatic.a fast-inverse-square-root.o
@@ -145,13 +149,13 @@ You should get a libstatic.a file. You can check a list of symbols in archive th
 
 **Shared library** is more difficult, let's start from definition:
 
-> Shared libraries are libraries that are loaded by programs when they start. When a shared library is installed properly, all programs that start afterwards automatically use the new shared library. It's actually much more flexible and sophisticated than this, because the approach used by Linux permits you to: update libraries and still support programs that want to use older, non-backward-compatible versions of those libraries; override specific libraries or even specific functions in a library when executing a particular program; do all this while programs are running using existing libraries.
+> Shared libraries are libraries that are loaded by programs when they start. When a shared library is installed properly, all programs that start afterwards automatically use the new shared library. It's actually much more flexible and sophisticated than this, because the approach used by Linux permits you to: update libraries and still support programs that want to use older, non-backward-compatible versions of those libraries; override specific libraries or even specific functions in a library when executing a particular program; do all this while programs are running using existing libraries. <sup>[5](http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html)</sup>
 
-Since Android API 23 NDK supports dylib SONAME. 
+Since Android API 23 NDK supports dylib `SONAME`. 
 
-> Every shared library has a special name called the `soname`. The soname has the prefix `lib`, the name of the library, the phrase `.so`, followed by a period and a version number that is incremented whenever the interface changes (as a special exception, the lowest-level C libraries don't start with `lib`). A fully-qualified soname includes as a prefix the directory it's in; on a working system a fully-qualified soname is simply a symbolic link to the shared library's `real name`. Every shared library also has a `real name`, which is the filename containing the actual library code. The real name adds to the soname a period, a minor number, another period, and the release number. The last period and release number are optional. The minor number and release number support configuration control by letting you know exactly what version(s) of the library are installed.
+> Every shared library has a special name called the `soname`. The soname has the prefix `lib`, the name of the library, the phrase .so, followed by a period and a version number that is incremented whenever the interface changes (as a special exception, the lowest-level C libraries don't start with `lib`). A fully-qualified soname includes as a prefix the directory it's in; on a working system a fully-qualified soname is simply a symbolic link to the shared library's `realname`. Every shared library also has a `realname`, which is the filename containing the actual library code. The real name adds to the soname a period, a minor number, another period, and the release number. The last period and release number are optional. The minor number and release number support configuration control by letting you know exactly what version(s) of the library are installed. <sup>[6](http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html)</sup>
 
-There is a "small" problem with soname in Android: all Android 23+ platforms require soname, but only Android 23+ can read it. That's why if you current min API lower than 23 you should always set soname == realname. No versioning of soname yet 😔
+There is a "small" problem with soname in Android: all Android 23+ platforms require `soname`, but only Android 23+ can read it. That's why if you current min API lower than 23 you should always set `soname` == `realname`. No versioning of soname yet 😔
 
 Code of inverse square root using math.h:
 
@@ -191,7 +195,7 @@ There are 2 interesting rows:
 
 Now check the header of the shared library. For this purpose, we can use readelf utility.
 
-> readelf displays information about one or more ELF format object files.
+> `readelf` displays information about one or more ELF format object files. <sup>[7](https://sourceware.org/binutils/docs/binutils/readelf.html)</sup>
 
 The biggest advantages of using ELF - it's independence from CPU, ABI or operation system and can be used anywhere for checking any ELF object. If you have gcc tools preinstalled you can use sysytem `readelf`. For macOS user I can recommend `brew install greadelf`
 
@@ -203,7 +207,7 @@ greadelf -d libdynamic.so | grep -E 'NEEDED|SONAME'
  0x0000000e (SONAME)                     Library soname: [libdynamic.so]
 ~~~
 
-As you can see in libdynamic.so header contains soname identical to filename and has 2 dependencies to system libs: libdl and libc. But also we need to link math library here, because of unresolved `sqrtf` symbol. To do it just add `-lm` flag
+As you can see in libdynamic.so header contains `soname` identical to filename and has 2 dependencies to system libs: libdl and libc. But also we need to link math library here, because of unresolved `sqrtf` symbol. To do it just add `-lm` flag
 
 ~~~bash
 ./toolchain/bin/clang -shared -o libdynamic.so -Xlinker -soname=libdynamic.so -lm standart-inverse-square-root.c
@@ -225,8 +229,8 @@ float rsqrt( float number );
 int main() {
 	int c;
 	scanf("%d", &c);
-	printf("Quick inverse square root from %d is %f\n", c, Q_rsqrt(c));
-	printf("Standard inverse square root from %d is %f\n", c, rsqrt(c));
+	printf("Quick inverse square root of %d is %f\n", c, Q_rsqrt(c));
+	printf("Standard inverse square root of %d is %f\n", c, rsqrt(c));
 	return 0;
 }
 ~~~
@@ -246,7 +250,7 @@ Linker said that there are no `Q_rsqrt` and `rsqrt`. Try to link against librari
 ./toolchain/bin/clang -L./ -o helloworld helloworld.c libstatic.a libdynamic.so -fPIE -pie
 ~~~
 
-Time to run this on the device. Besides running executable command line application needed to specify LD_LIBRARY_PATH (the path where executable should look for dynamic libraries):
+Time to run this on the device. Besides running executable command line application needed to specify `LD_LIBRARY_PATH` (the path where executable should look for dynamic libraries):
 
 ~~~bash
 adb push ./libdynamic.so /data/local/tmp
@@ -254,15 +258,15 @@ adb push ./helloworld /data/local/tmp
 adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/helloexecutable
 
 42
-Quick inverse square root from 42 is 0.154036
-Standard inverse square root from 42 is 0.154303
+Quick inverse square root of 42 is 0.154036
+Standard inverse square root of 42 is 0.154303
 ~~~
 
 ### Cross-platform compilation and CMake
 
 C is a cross-platform language and in general case C code can be compiled for any platform. Headers that I imported in my sample project refers to libc, it's the standard library for the C programming language, as specified in the ANSI C standard. In this section, I will show how to build the sample app for host system (in my case macOS) and Android. For this purpose I use CMake:
 
-> CMake is an open-source, cross-platform family of tools designed to build, test and package software. CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice. 
+> CMake is an open-source, cross-platform family of tools designed to build, test and package software. CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice. <sup>[8](https://cmake.org/)</sup>
 
 Android SDK nowadays contains his own version of CMake, we will use it.
 
@@ -285,7 +289,7 @@ add_library(fisr STATIC
 SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -fPIE -pie") # set PIE
 add_executable(helloworld helloworld.c) # create executable
 target_link_libraries (helloworld fisr) # link static lib
-target_link_libraries (helloworld sisr) # lin shared lib
+target_link_libraries (helloworld sisr) # link shared lib
 ~~~
 
 CMake building consists of 2 steps: generate makefiles for target platform and run build
@@ -310,8 +314,8 @@ adb push ./libsisr.so /data/local/tmp
 adb push ./helloworld /data/local/tmp
 adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/helloworld
 42
-Quick inverse square root from 42 is 0.154036
-Standard inverse square root from 42 is 0.154303
+Quick inverse square root of 42 is 0.154036
+Standard inverse square root of 42 is 0.154303
 ~~~
 
 As you can see CMake is a very simple tool for building cross-platform C code.
@@ -320,7 +324,7 @@ As you can see CMake is a very simple tool for building cross-platform C code.
   <strong>Note:</strong> Android CMake configuration provides <a href="https://developer.android.com/ndk/guides/cmake.html">special flags</a> for Android such as minApi, stl, toolchain, etc.
 </div>
 
-Now you can try something more complicated with one of the IDE that supports CMake build system (e.g. JetBrains CLion).
+Now you can try something more complicated with one of the IDE that supports CMake build system (e.g. [JetBrains CLion](https://www.jetbrains.com/clion/)).
 
 ### What's next? 
 

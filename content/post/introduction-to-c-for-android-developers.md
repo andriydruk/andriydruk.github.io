@@ -273,7 +273,7 @@ Android SDK nowadays contains his own version of CMake, we will use it.
 All rules of compilation usually describe in CMakeList.txt. You can check syntaxis of [CMake config here](https://cmake.org/cmake-tutorial/).
 My version of CMakeList.txt for fast inverse square root sample is:
 
-~~~make
+~~~cmake
 cmake_minimum_required(VERSION 3.6) # set min version of cmake
 
 project(helloworld) # create project

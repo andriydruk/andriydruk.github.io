@@ -7,7 +7,7 @@ onmain = true
 
 ### Android general talks
 
-Well, 2 weeks have gone since Google IO and I I've finally finished with my list of sessions. There are general talks that I liked the most:
+Well, 2 weeks have gone since Google IO and I've finally finished with my list of sessions. There are general talks that I liked the most:
 
 - [What's New in Android](https://www.youtube.com/watch?v=1N9KveJ-FU8)
 - [What's New in Android Development Tools](https://www.youtube.com/watch?v=Hx_rwS1NTiI)

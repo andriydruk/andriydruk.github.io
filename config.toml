@@ -8,8 +8,6 @@ canonifyurls = true
 paginate = 10
 copyright = "Code released under the Apache 2.0 license."
 
-disqusShortname = "yetanotherandroiddeveloperblog"
-
 [author]
   name = "Andriy Druk"
 
@@ -19,6 +17,7 @@ disqusShortname = "yetanotherandroiddeveloperblog"
   Author = "Andriy Druk"
   email = "andriy.druk@gmail.com"
   Ganalytics = "UA-67278568-1"
+  utterancRepo = "andriydruk/andriydruk.github.io"
   logo = "img/logo.png"
   Position = "Software Mobile Engineer"
   twitter = "AndriyDruk"

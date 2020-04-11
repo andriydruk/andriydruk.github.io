@@ -5,6 +5,7 @@ description = ""
 draft = false
 title = "Что такое .aar библиотеки?"
 onmain = false
+comments = true
 
 +++
 

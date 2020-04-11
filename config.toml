@@ -14,7 +14,7 @@ disqusShortname = "yetanotherandroiddeveloperblog"
   name = "Andriy Druk"
 
 [params]
-  DateForm = "Mon, Jan 2, 2006"
+  DateForm = "Jan 2, 2006"
   Description = "Projects • Github • Twitter • About"
   Author = "Andriy Druk"
   email = "andriy.druk@gmail.com"

@@ -13,16 +13,16 @@ Lately, I've spent a lot of time interviewing Android developers. And I was surp
 
 ### Toolchain
 
-The first step is toolchain. For this tutorial, I will use a very basic set of the toolchain. I already have downloaded the [latest NDK](https://developer.android.com/ndk/downloads/index.html) (r14b) from the official website, added `ANDROID_NDK` environment variable, and I'm ready to create toolchain:
+The first step is toolchain. For this tutorial, I will use a very basic set of the toolchain. I already have downloaded the [latest NDK](https://developer.android.com/ndk/downloads/index.html) (r21d) from the official website, added `ANDROID_NDK` environment variable.
 
-~~~bash
-$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 21 --unified-headers --install-dir ./toolchain
-~~~
-
-This command will generate toolchain for target platform 21 for ARM architecture.
+For working with a particular platform you should choose CPU architecture and target API. For example, aarch64-linux-android21 is Android ARM64 architecture with target API 21.
 
 <div class="alert alert-warning">
- <strong>Warning:</strong> The target API level in the NDK has a very different meaning than targetSdkVersion does in Java. The NDK target API level is your app's minimum supported API level.
+ <strong>Warning:</strong> The target API level in the NDK has a very different meaning than targetSdkVersion does in Java. The NDK target API level is your app's minimum supported API level. 
+</div>
+
+<div class="alert alert-info">
+  <strong>Note:</strong> In old versions of NDK developers created a toolchain for a particular platform. As of NDK r19, the toolchains installed by default with the NDK may be used in-place. The make_standalone_toolchain.py script is no longer needed for interfacing with arbitrary build systems.
 </div>
 
 <div class="alert alert-info">
@@ -58,7 +58,7 @@ I use clang compiler (this is a default compiler in NDK 14). Clang is a frontend
 Back to practice, this command compiles .c file to object and then links it to the executable file for toolchain platform:
 
 ~~~bash
-/toolchain/bin/clang helloworld.c -o main
+$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -target aarch64-linux-android21 helloworld.c -o main
 ~~~
 
 If you are running on API 21 or higher you need to set a flag for position independent executables.
@@ -66,7 +66,7 @@ If you are running on API 21 or higher you need to set a flag for position indep
 > Starting from Android 4.1 (API level 16), Android's dynamic linker supports position-independent executables (PIE). From Android 5.0 (API level 21), executables require PIE. To use PIE to build your executables, set the `-fPIE flag`. This flag makes it harder to exploit memory corruption bugs by randomizing code location. <sup>[1](https://developer.android.com/ndk/guides/application_mk.html#var)</sup>
 
 ~~~bash
-./toolchain/bin/clang helloworld.o -o main -fPIE -pie
+$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -target aarch64-linux-android21 helloworld.o -o main -fPIE -pie
 ~~~
 
 For running helloworld executable you need Android Device or Emulator. Copy executable and run it via `adb`:
@@ -116,7 +116,7 @@ float Q_rsqrt( float number )
 Compile this hacky .c file into object
 
 ~~~bash
-./toolchain/bin/clang fast-inverse-square-root.c -c
+$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -target aarch64-linux-android21 fast-inverse-square-root.c -c
 ~~~
 
 This command will compile .c file into .o file (object). It's an intermediate object that will be used for creation of a static library. For deeper understanding what objects are we will use `nm` utility:
@@ -134,7 +134,7 @@ Typical symbol types include:
 We will check all our artifacts (objects, libraries, executables) with `nm` utility. Let's check fast-inverse-square-root.o:
 
 ~~~bash
-./toolchain/bin/arm-linux-androideabi-nm fast-inverse-square-root.o
+$ANDROID_NDK/toolchains/aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin/aarch64-linux-android-nm fast-inverse-square-root.o
 00000000 T Q_rsqrt
 ~~~
 
@@ -143,7 +143,7 @@ As mentioned above `T` means definition of symbol (in our case method) inside li
 > The gnu ar program creates, modifies, and extracts from archives. An archive is a single file holding a collection of other files in a structure that makes it possible to retrieve the original individual files (called members of the archive). <sup>[4](https://sourceware.org/binutils/docs/binutils/ar.html)</sup>
 
 ~~~bash
-./toolchain/bin/arm-linux-androideabi-ar rcs libstatic.a fast-inverse-square-root.o
+$ANDROID_NDK/toolchains/aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin/aarch64-linux-android-ar rcs libstatic.a fast-inverse-square-root.o
 ~~~
 
 You should get a libstatic.a file. You can check a list of symbols in archive the same way we do it for .o files.
@@ -173,13 +173,13 @@ float rsqrt( float number )
 Let's build shared library:
 
 ~~~bash
-./toolchain/bin/clang -shared -o libdynamic.so -Xlinker -soname=libdynamic.so standart-inverse-square-root.c
+$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -target aarch64-linux-android21 -shared -o libdynamic.so -Xlinker -soname=libdynamic.so standart-inverse-square-root.c
 ~~~
 
 You should get libdynamic.so. Let's check it with nm:
 
 ~~~bash
-../toolchain/bin/arm-linux-androideabi-nm -D libdynamic.so
+$ANDROID_NDK/toolchains/aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin/aarch64-linux-android-nm -D libdynamic.so
 0000144c A __bss_start
          U __cxa_atexit
          U __cxa_finalize
@@ -211,7 +211,7 @@ greadelf -d libdynamic.so | grep -E 'NEEDED|SONAME'
 As you can see in libdynamic.so header contains `soname` identical to filename and has 2 dependencies to system libs: libdl and libc. But also we need to link math library here, because of unresolved `sqrtf` symbol. To do it just add `-lm` flag
 
 ~~~bash
-./toolchain/bin/clang -shared -o libdynamic.so -Xlinker -soname=libdynamic.so -lm standart-inverse-square-root.c
+$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -target aarch64-linux-android21 -shared -o libdynamic.so -Xlinker -soname=libdynamic.so -lm standart-inverse-square-root.c
 greadelf -d libdynamic.so | grep -E 'NEEDED|SONAME'
  0x00000001 (NEEDED)                     Shared library: [libm.so]
  0x00000001 (NEEDED)                     Shared library: [libdl.so]
@@ -239,7 +239,7 @@ int main() {
 First, try to compile helloworld.c:
 
 ~~~bash
-./toolchain/bin/clang -o helloworld helloworld.c
+$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -target aarch64-linux-android21 -o helloworld helloworld.c
 helloworld.c:function main: error: undefined reference to 'Q_rsqrt'
 helloworld.c:function main: error: undefined reference to 'rsqrt'
 clang38: error: linker command failed with exit code 1 (use -v to see invocation)
@@ -248,7 +248,7 @@ clang38: error: linker command failed with exit code 1 (use -v to see invocation
 Linker said that there are no `Q_rsqrt` and `rsqrt`. Try to link against libraries:
 
 ~~~bash
-./toolchain/bin/clang -L./ -o helloworld helloworld.c libstatic.a libdynamic.so -fPIE -pie
+$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -target aarch64-linux-android21 -L./ -o helloworld helloworld.c libstatic.a libdynamic.so -fPIE -pie
 ~~~
 
 Time to run this on the device. Besides running executable command line application needed to specify `LD_LIBRARY_PATH` (the path where executable should look for dynamic libraries):
@@ -256,7 +256,7 @@ Time to run this on the device. Besides running executable command line applicat
 ~~~bash
 adb push ./libdynamic.so /data/local/tmp
 adb push ./helloworld /data/local/tmp
-adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/helloexecutable
+adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/helloworld
 
 42
 Quick inverse square root of 42 is 0.154036
@@ -272,7 +272,7 @@ C is a cross-platform language and in general case C code can be compiled for an
 Android SDK nowadays contains his own version of CMake, we will use it.
 
 All rules of compilation usually describe in CMakeList.txt. You can check syntaxis of [CMake config here](https://cmake.org/cmake-tutorial/).
-My version of CMakeList.txt for fast inverse square root sample is:
+My version of CMakeLists.txt for fast inverse square root sample is:
 
 ~~~cmake
 cmake_minimum_required(VERSION 3.6) # set min version of cmake

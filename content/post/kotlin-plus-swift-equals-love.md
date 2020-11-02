@@ -7,41 +7,41 @@ onmain = false
 comments = true
 +++
 
-Last year we at Readdle launched [Spark for Android](https://play.google.com/store/apps/details?id=com.readdle.spark&hl=ru). After 1 year there are one million installs on Google Play. I believe this is the biggest Swift application in Google Play for now. 
+Last year we at Readdle launched [Spark for Android](https://play.google.com/store/apps/details?id=com.readdle.spark&hl=ru). After 1 year there are one million installs on Google Play. I believe this is the most popular Swift application in Google Play for now. 
 
-I'm joined Readdle in 2016 and worked 3 years on the first release of Spark for Android. For creating Android version Readdle developed a special Swift toolchain that was already described in [article on Medium](https://blog.readdle.com/why-we-use-swift-for-android-db449feeacaf).
+I joined Readdle in 2016 and have worked on the first release of Spark for Android for 3 years. Readdle has developed a special Swift toolchain to create the Android version that was already described in [article on Medium](https://blog.readdle.com/why-we-use-swift-for-android-db449feeacaf).
 
-In this article, I will describe the approach of binding Swift and Kotlin code in one.
+In this article, I want to describe the approach of binding Swift and Kotlin code in one.
 
 <!--more-->
 
 ### Toolchain
 
-For compiling Swift code is using [Apple fork of LLVM](https://github.com/apple/llvm-project). 
+Swift code is using [Apple fork of LLVM](https://github.com/apple/llvm-project) for compiling. 
 
 > The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. This fork is used to manage Apple’s stable releases of Clang as well as support the Swift project. [^1]
 
 It works very similar to the [NDK clang compiler](https://android.googlesource.com/platform/ndk/+/master/docs/BuildSystemMaintainers.md#introduction) and with proper [silgen naming](https://github.com/apple/swift/blob/main/docs/StandardLibraryProgrammersManual.md#_silgen_name) convention, it can compile Swift to ABI idiomatic C binary code. From the perspective of the JVM view, there is no difference in a dynamic library that was compiled from .c files or from .swift files. That's why it is possible to write all native code for the Android platform using only Swift language (including [JNI bridges](https://developer.android.com/training/articles/perf-jni).)
 
-Kotlin code compiles in JVM byte code, that's no so different from byte code that can be compiled from Java. 
+Kotlin code compiles into JVM byte code, that's not so different from byte code that can be compiled from Java. 
 
 > Note: Because Android compiles Kotlin to ART-friendly bytecode in a similar manner as the Java programming language, you can apply the guidance on this page to both the Kotlin and Java programming languages in terms of JNI architecture and its associated costs. [^2]
 
-From the standpoint of binding to languages Java <--> C or Kotlin <--> Swift there not much difference. At this point, the article can be finished. Swift with Kotlin was bound, goal achieved. But I wanna go further.
+From the standpoint of binding to languages Java <--> C or Kotlin <--> Swift there is not much difference. At this point, the article can be finished. Swift was bound with Kotlin, goal achieved. But I wanna go further.
 
-My goal not only bind code written in these two languages but make this binding automatic. Good acceptance criteria can be **automatic generation of Kotlin headers and JNI bridges for all Swift modules that were added to the Android project**.
+My goal was not only to bind code written in these two languages but to make this binding automatic. Good acceptance criteria can be **automatic generation of Kotlin headers and JNI bridges for all Swift modules that were added to the Android project**.
 
-To achieve this goal needed rules for understanding if the concrete type can be bound to Kotlin's environment and how this type would be represented here. Let's separate all types into 3 big groups:
+To achieve this goal I needed rules to understand if a certain type can be bound to Kotlin's environment and how this type would be represented here. Let's separate all types into 3 big groups:
 
 * **References**
 * **Values**
 * **Protocols**
 
-But before I'm going to describe every group, let’s talk about memory management in both runtime environments.
+But before I describe every group, let’s talk about memory management in both runtime environments.
 
 ### ARC and Tracing GC
 
-On a regular basis, I'm interviewing experienced Android developers and I ask to describe how ART GC works and how it differs from Reference Count. Spoiler: most interviewers saying that it the same things 😀
+On a regular basis, I interview experienced Android developers and I ask them to describe how ART GC works and how it differs from Reference Count. Spoiler: most interviewers say that these are the same things 😀
 
 Then I usually ask about a strong reference cycle. And this is a **moment**.
 
@@ -64,7 +64,7 @@ There is a common approach on how to avoid issues like this [described by Apple]
 > In  [computer programming](https://en.wikipedia.org/wiki/Computer_programming) , **tracing garbage collection** is a form of  [automatic memory management](https://en.wikipedia.org/wiki/Automatic_memory_management)  that consists of determining which objects should be deallocated (“garbage collected”) by tracing which objects are *reachable* by a chain of references from certain “root” objects, and considering the rest as “garbage” and collecting them. Tracing garbage collection is the most common type of  [garbage collection](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science))  – so much so that “garbage collection” often refers to tracing garbage collection, rather than other methods such as  [reference counting](https://en.wikipedia.org/wiki/Reference_counting)  – and there are a large number of algorithms used in implementation. [^6]
 
 Ok, and what about cycles?
-Cycles destroyed by Tracing GC: all unreachable objects will be removed despite the fact of their cycle dependencies.
+Cycles destroyed by Tracing GC: all unreachable objects will be removed regardless of their cycle dependencies.
 
 Next: first type - References.
 
@@ -76,11 +76,11 @@ Next: first type - References.
     <img src="/img/kotlin-swift-animation-1.gif" width="600" alt="Reference">
 </div>
 
-How actually Kotlin class can keep a strong reference? Here we should remember how RC works: to create a strong reference to Swift class do manual retain (+1 to counter) and store memory reference in Kotlin long field (for 64-bit architecture). Of cause every retain should be balanced by release (-1 to counter). 
+How can a Kotlin class keep a strong reference? Here we should remember how RC works: to create a strong reference to Swift class you should do a manual retain (+1 to counter) and store memory reference in Kotlin long field (for 64-bit architecture). Of course every retain should be balanced by a release (-1 to counter). 
 
-And it's a tricky part. Unfortunately, there are no deallocators in Tracing GC at least in classic meaning. Java and Kotlin classes have [finalize](https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html#finalize()) method that called when GC destroy objects. But it is not a recommended way of cleaning resources [^7].
+And it's a tricky part. Unfortunately, there are no deallocators in Tracing GC at least in classic meaning. Java and Kotlin classes have [finalize](https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html#finalize()) method that called when GC destroy objects. But it is not a recommended way to clean up resources [^7].
 
-There are 2 approaches to deallocating native memory in Android Open Source Project:
+There are 2 approaches for native memory deallocation in Android Open Source Project:
 
 1. Manual releasing: in AOSP project it used in [MediaPlayer](https://developer.android.com/reference/android/media/MediaPlayer#release()), [MediaRecorder](https://developer.android.com/reference/android/media/MediaRecorder#release()) and [MediaMuxer](https://developer.android.com/reference/android/media/MediaMuxer#release()). 
 
@@ -90,9 +90,9 @@ There are 2 approaches to deallocating native memory in Android Open Source Proj
   <strong>Note:</strong> if you are intrested in this topic, I would recommend session <a href="https://www.youtube.com/watch?v=7_caITSjk1k">How to Manage Native C++ Memory in Android (Google I/O '17)</a>.
 </div>
 
-I believe that the most straight forward way, for now, is **manual releasing of References** (in future this can be changed).
+I believe that the most straightforward way, for now, is **manual releasing of References** (in future this can be changed).
 
-Here examples of code for both languages from [Swift Weather](https://github.com/andriydruk/swift-weather-app) project:
+Here are some examples of code for both languages from [Swift Weather](https://github.com/andriydruk/swift-weather-app) project:
 
 Swift Reference
 ~~~swift
@@ -109,7 +109,7 @@ Kotlin Reference
 ~~~kotlin
 class WeatherRepository private constructor() {
     companion object {
-        external fun init(delegate: Delegate): WeatherRepository
+        external fun init(delegate: WeatherRepositoryDelegate): WeatherRepository
     }
     // Swift JNI private native pointer
     private val nativePointer = 0L
@@ -126,14 +126,14 @@ Static functions and variables could be accessed with static external funs.
 
 ### Value
 
-**Swift Values** is any public struct that imported to the Kotlin runtime environment. Unlike classes, struct can't be passed as references, it always works with copy-on-write behavour. That's why the only way to pass it to Kotlin environment - make a copy.
+**Swift Values** is a public struct that was imported to the Kotlin runtime environment. Unlike classes, struct can't be passed as references, it always works with copy-on-write behavour. That's why the only way to pass it to Kotlin environment - make a copy.
 For proper working with Swift API copying should work in both sides Swift -> Kotlin and Kotlin -> Swift.
 
 <div style="text-align:center" markdown="1">
     <img src="/img/kotlin-swift-animation-2.gif" width="600" alt="Reference">
 </div>
 
-One possible implementation is using [Codable](https://developer.apple.com/documentation/swift/codable) protocol for encoding/decoding in Kotlin data class. This approach was implemented in [JavaCoder](https://github.com/readdle/swift-java-coder) that can encode/decode Swift structs to Kotlin data classes with appropriate field names. As result, **Swift Values** works with copy-on-read behavour (similar to `C` struct).
+One possible implementation is using [Codable](https://developer.apple.com/documentation/swift/codable) protocol for encoding/decoding in Kotlin data class. This approach was implemented in [JavaCoder](https://github.com/readdle/swift-java-coder) that can encode/decode Swift structs to Kotlin data classes with appropriate field names. As a result, **Swift Values** work with copy-on-read behavour (similar to `C` struct).
 
 The current implementation of [Java Coder](https://github.com/readdle/swift-java-coder) supports that kind of types from the standard library:
 
@@ -157,9 +157,9 @@ The current implementation of [Java Coder](https://github.com/readdle/swift-java
 * [Dictionary](https://developer.apple.com/documentation/swift/dictionary) -> [HashMap](https://developer.android.com/reference/java/util/HashMap)
 * [Set](https://developer.apple.com/documentation/swift/set) -> [HashSet](https://developer.android.com/reference/java/util/HashSet)
 
-Swift Value can include another Swift Value as field. Also Java Coder supports Enums and OptionSets.
+Swift Value can include another Swift Value as a field. Also Java Coder supports Enums and OptionSets.
 
-Here examples of code for both languages from [Swift Weather](https://github.com/andriydruk/swift-weather-app) project:
+Here are some examples of code for both languages from [Swift Weather](https://github.com/andriydruk/swift-weather-app) project:
 
 Swift Value:
 ~~~swift
@@ -181,23 +181,23 @@ public struct Weather: Codable, Hashable {
 Kotlin Value:
 ~~~kotlin
 data class Weather(
-    val state: WeatherState = WeatherState.NONE,
-    val date: Date = Date(),
-    val minTemp: Float = Float.NaN,
-    val maxTemp: Float = Float.NaN,
-    val temp: Float = Float.NaN,
-    val windSpeed: Float = Float.NaN,
-    val windDirection: Float = Float.NaN,
-    val airPressure: Float = Float.NaN,
-    val humidity: Float = Float.NaN,
-    val visibility: Float = Float.NaN,
-    val predictability: Float = Float.NaN
+    val state: WeatherState,
+    val date: Date,
+    val minTemp: Float,
+    val maxTemp: Float,
+    val temp: Float,
+    val windSpeed: Float,
+    val windDirection: Float,
+    val airPressure: Float,
+    val humidity: Float,
+    val visibility: Float,
+    val predictability: Float
 )
 ~~~
 
 ### Protocol
 
-**Swift Protocol** is a protocol or block that imported to Kotlin's environment.
+**Swift Protocol** is a protocol or a block that was imported to Kotlin's environment.
 
 Protocols are used for passing Kotlin reference instances to the Swift runtime environment. Usually, this is the implementation of Swift protocols or Swift blocks. 
 
@@ -236,7 +236,6 @@ public typealias SwiftBlock = (String) -> Void
 
 Kotlin Block:
 ~~~kotlin
-@SwiftBlock("(String)->Void")
 fun interface SwiftBlock {
     fun invoke(string: String)
 }
@@ -244,14 +243,14 @@ fun interface SwiftBlock {
 
 ### Summary
 
-With this 3 concept toolchain can covert almost any Swift library API. Of cause, it can’t support all. For example, it doesn't support templates or struct without a Codable protocol. In this case, I would recommend writing a small wrapper layer that will optimize your API for Android.
+With this 3 concept (Swift Reference, Swift Value, Swift Protocol) toolchain can covert almost any Swift library API. Of course, it doesn't support everything. For example, it doesn't support templates or structs without the Codable protocol. In this case, I would recommend writing a small wrapper layer that will optimize your API for Android.
 
-Another question I heard very often: what about performance? Does JNI have an impact on the performance of the app? In most cases no, JNI is pretty fast. There are general recommendations from Google [how to write code with JNI](https://developer.android.com/training/articles/perf-jni). All these recommendations appliable for Swift as well.
+Another question I hear very often: what about performance? Does JNI have an impact on the performance of the app? In most cases no, JNI is pretty fast. There are general recommendations from Google [how to write code with JNI](https://developer.android.com/training/articles/perf-jni). All these recommendations are applicable for Swift as well.
 
-This is roadmap for fully automated Kotlin-Swift binding: 
+This is a roadmap for fully automated Kotlin-Swift binding: 
 
-1. Create a tool for generating JNI code from Kotlin headers ✅: was implemented with [Annotation Processor](https://github.com/readdle/swift-java-codegen) (this how Spark for Android now works)
-2. Create a tool for generating Kotlin header automatically 🚧
+1. Create a tool to generate JNI code from Kotlin headers ✅: was implemented with [Annotation Processor](https://github.com/readdle/swift-java-codegen) (this is how Spark for Android works at the moment)
+2. Create a tool to generate Kotlin header automatically 🚧
 3. Merge both tools for better performance and consistency 🎯
 
 A few months ago, I started a small project for the demonstration of using Swift lang in different platforms - [Swift Weather App](https://github.com/andriydruk/swift-weather-app). At the current point in time, this is a pretty simple project but I believe, it's a very good point to start your journey to Swift cross-platform development.

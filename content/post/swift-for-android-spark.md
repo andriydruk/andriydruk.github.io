@@ -5,6 +5,6 @@ description = ""
 draft = false
 title = "Swift for Android"
 onmain = true
-externallink = "https://blog.readdle.com/why-we-use-swift-for-android-db449feeacaf"
+externallink = "https://readdle.com/blog/swift-for-android-our-experience-and-tools"
 
 +++

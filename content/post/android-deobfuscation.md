@@ -9,7 +9,7 @@ comments = true
 
 +++
 
-One of the problems of Android application support is to deofuscate or retrace stack traces obtained from an obfuscated release build. To figure out how to deobfuscate a stack trace, you need to understand how the obfuscation actually works. The standard way of obfuscation in Android development is done using tools such as the ProGuard. That's what the [official documentation] (http://developer.android.com/tools/help/proguard.html#decoding) says
+One of the problems of Android application support is to deofuscate or retrace stack traces obtained from an obfuscated release build. To figure out how to deobfuscate a stack trace, you need to understand how the obfuscation actually works. The standard way of obfuscation in Android development is done using tools such as the ProGuard. That's what the [official documentation](http://developer.android.com/tools/help/proguard.html#decoding) says
 
 > The ProGuard tool shrinks, optimizesstatic innerand obfuscates your code by removing unused code and renaming classes, fields, and methods with semantically obscure names. 
 

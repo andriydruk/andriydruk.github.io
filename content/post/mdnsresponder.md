@@ -44,7 +44,7 @@ Also Google (not Android open source project) has introduced a new cross-platfor
 
 > A typical mDNS program contains three components:
 
-![Alt text](/img/Screen Shot 2015-09-05 at 23.21.23.png)
+![Alt text](/img/Screen-Shot-2015-09-05-at-23.21.23.png)
 
 > The "mDNS Core" layer is absolutely identical for all applications and
 all Operating Systems.
@@ -73,7 +73,7 @@ handle this for them. If every application developer were to link-in the
 mDNSResponder code into their application, then we would end up with a
 situation like the picture below:
 
-![Alt text](/img/Screen Shot 2015-09-05 at 23.21.31.png)
+![Alt text](/img/Screen-Shot-2015-09-05-at-23.21.31.png)
 
 > This would not be very efficient. Each separate application would be sending
 their own separate multicast UDP packets and maintaining their own list of
@@ -82,7 +82,7 @@ software should access through the "/usr/include/dns_sd.h" APIs.
 
 > The situation on OS X looks more like the picture below:
 
-![Alt text](/img/Screen Shot 2015-09-05 at 23.21.39.png)
+![Alt text](/img/Screen-Shot-2015-09-05-at-23.21.39.png)
 
 > Applications on OS X make calls to the single mDNSResponder daemon
 which implements the mDNS and DNS-SD protocols.

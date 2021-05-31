@@ -105,7 +105,7 @@ It's exactly what we are looking for: the exception was thrown in method `b` of 
 
 For deobfuscation we needed file `mapping.txt` from `build`. In my case path ro the file was `app/build/outputs/mapping/debug/mapping.txt`. Next you need to run script retrace.sh from `ANDROID_HOME/tools/proguard/bin` or run GUI utilits called ProguadGUI from `ANDROID_HOME/tools/proguard/lib/proguardgui.jar`. I used GUI utils and got the following:
 
-![Alt text](/img/Screen Shot 2015-08-04 at 23.34.25.png)
+![Alt text](/img/Screen-Shot-2015-08-04-at-23.34.25.png)
 
 ~~~java 
 Caused by: java.lang.RuntimeException: Stack deobfuscation example exception

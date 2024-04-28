@@ -1,6 +1,6 @@
 baseurl = "https://www.andriydruk.com"
 languageCode = "en-us"
-title = "Yet Another Android Developer Blog"
+title = "Andriy Druk"
 theme = "min-blog"
 
 metadataformat = "yaml"
@@ -17,9 +17,11 @@ copyright = "Code released under the Apache 2.0 license."
   Author = "Andriy Druk"
   email = "andriy.druk@gmail.com"
   utterancRepo = "andriydruk/andriydruk.github.io"
-  piwikURL="https://hogsmeade.andriydruk.com/piwik/"
   logo = "img/logo.png"
   Position = "Software Mobile Engineer"
   twitter = "AndriyDruk"
   github  = "andriydruk"
   linkedin = "andriy-druk-23147344"
+
+[markup.goldmark.renderer]
+  unsafe = true # Allow HTML in md files

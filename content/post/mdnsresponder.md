@@ -137,7 +137,3 @@ context.getSystemService(Context.NSD_SERVICE);
 Otherwise, mDNSResponder will throw a checked exception "DNSD-SD Daemon not available".
 
 **Do you have any examples?** Yep, you can find an example of mDNSResponder usage (containing compiled native libraries with  the latest ndk version for all architectures) in my project ~~Bonjour Browser~~ I mean Service Browser, all code is available on [GitHub](https://github.com/andriydruk/BonjourBrowser). You can also see it in action in [Google Play.](https://play.google.com/store/apps/details?id=com.druk.servicebrowser&hl=en) It works really fast!
-
-<div class="alert alert-info">
-  <strong>Note:</strong> Due to privacy reasons, I decided to disable Disqus comments that were used on my blog before. The old discussion is still available <a href="https://disqus.com/home/discussion/yetanotherandroiddeveloperblog/bonjour_in_android_applications/">here</a>.
-</div>

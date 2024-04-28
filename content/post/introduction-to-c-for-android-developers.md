@@ -1,7 +1,6 @@
 +++
 date = "2017-05-01T23:10:36+03:00"
 title = "Introduction to C for Android Developers"
-image = "/img/welcome_bg.jpg"
 onmain = true
 comments = true
 
@@ -337,7 +336,3 @@ According to official documentation, Google recommends to use NDK for 2 reasons:
 From my point of view, C can be used for any particular code in your project except UI part and communication with a system. Also, it can be useful in the cross-platform development of shared codebase.
 
 I hope my tutorial persuaded you to stop being afraid of C code and inspired to write something on your own. My sample of cross-platform compilation is [available on Github](https://github.com/andriydruk/intoduction-to-c-for-android-developers).
-
-<div class="alert alert-info">
-  <strong>Note:</strong> Due to privacy reasons, I decided to disable Disqus comments that were used on my blog before. The old discussion is still available <a href="https://disqus.com/home/discussion/yetanotherandroiddeveloperblog/introducation_to_c_for_android_developers_88/">here</a>.
-</div>

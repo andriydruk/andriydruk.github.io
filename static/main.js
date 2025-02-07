@@ -294,76 +294,120 @@ function endGesture() {
 //// MOTION CONTROLS ////
 
 // Initialize variables for motion-based parallax
-var motion_initial = {
-	x: null,
-	y: null
-};
-var motion = {
-	x: 0,
-	y: 0
-};
+let motion_initial = { x: null, y: null };
+let motion = { x: 0, y: 0 };
+let hasGyroPermission = false; // Track permission status
 
-DeviceOrientationEvent.requestPermission()
-	        .then(response => {
-	          if (response === 'granted') {
-	            // This is where we listen to the gyroscope position
-				window.addEventListener('deviceorientation', function(event) {
-					// If this is the first run through here, set the initial position of the gyroscope
-					if (!motion_initial.x && !motion_initial.y) {
-						motion_initial.x = event.beta;
-						motion_initial.y = event.gamma;
-					}
-					
-					// Depending on what orientation the device is in, you need to adjust what each gyroscope axis means
-					// This can be a bit tricky
-				    if (window.orientation === 0) {
-				    	// The device is right-side up in portrait orientation
-				    	motion.x = event.gamma - motion_initial.y;
-				    	motion.y = event.beta - motion_initial.x;
-				    } else if (window.orientation === 90) {
-				    	// The device is in landscape laying on its left side
-				    	motion.x = event.beta - motion_initial.x;
-				    	motion.y = -event.gamma + motion_initial.y;
-				    } else if (window.orientation === -90) {
-				    	// The device is in landscape laying on its right side
-				    	motion.x = -event.beta + motion_initial.x;
-				    	motion.y = event.gamma - motion_initial.y;
-				    } else {
-				    	// The device is upside-down in portrait orientation
-						motion.x = -event.gamma + motion_initial.y;
-						motion.y = -event.beta + motion_initial.x;
-				    }
+function setupGyro() {
 
-					// This is optional, but prevents things from moving too far (because these are 2d images it can look broken)
-					var max_offset = 23;
-				    
-				    // Check if magnitude of motion offset along X axis is greater than your max setting
-				    if (Math.abs(motion.x) > max_offset) {
-				    	// Check whether offset is positive or negative, and make sure to keep it that way
-				    	if (motion.x < 0) {
-				    		motion.x = -max_offset;
-				    	} else {
-				    		motion.x = max_offset;
-				    	}
-				    }
-				    // Check if magnitude of motion offset along Y axis is greater than your max setting
-				    if (Math.abs(motion.y) > max_offset) {
-				    	// Check whether offset is positive or negative, and make sure to keep it that way
-				    	if (motion.y < 0) {
-				    		motion.y = -max_offset;
-				    	} else {
-				    		motion.y = max_offset;
-				    	}
-				    }
-				});
+    // This is where we listen to the gyroscope position
+    window.addEventListener('deviceorientation', function(event) {
+        // Guard against running if permission wasn't granted.
+        if (!hasGyroPermission) return;
 
-				// Reset the position of motion controls when device changes between portrait and landscape, etc.
-				window.addEventListener('orientationchange', function(event) {
-					motion_initial.x = 0;
-					motion_initial.y = 0;
-				});
-	          } else {
-	            console.error('Permission not granted for device orientation.');
-	          }
-	        })
-	        .catch(console.error);
+        // If this is the first run through here, set the initial position of the gyroscope
+        if (motion_initial.x === null && motion_initial.y === null) {
+            motion_initial.x = event.beta;
+            motion_initial.y = event.gamma;
+        }
+
+        // Depending on what orientation the device is in, you need to adjust what each gyroscope axis means
+        // This can be a bit tricky
+        if (window.orientation === 0) {
+            // The device is right-side up in portrait orientation
+            motion.x = event.gamma - motion_initial.y;
+            motion.y = event.beta - motion_initial.x;
+        } else if (window.orientation === 90) {
+            // The device is in landscape laying on its left side
+            motion.x = event.beta - motion_initial.x;
+            motion.y = -event.gamma + motion_initial.y;
+        } else if (window.orientation === -90) {
+            // The device is in landscape laying on its right side
+            motion.x = -event.beta + motion_initial.x;
+            motion.y = event.gamma - motion_initial.y;
+        } else {
+            // The device is upside-down in portrait orientation
+            motion.x = -event.gamma + motion_initial.y;
+            motion.y = -event.beta + motion_initial.x;
+        }
+
+        // This is optional, but prevents things from moving too far (because these are 2d images it can look broken)
+        var max_offset = 23;
+
+        // Check if magnitude of motion offset along X axis is greater than your max setting
+        if (Math.abs(motion.x) > max_offset) {
+            // Check whether offset is positive or negative, and make sure to keep it that way
+            if (motion.x < 0) {
+                motion.x = -max_offset;
+            } else {
+                motion.x = max_offset;
+            }
+        }
+        // Check if magnitude of motion offset along Y axis is greater than your max setting
+        if (Math.abs(motion.y) > max_offset) {
+            // Check whether offset is positive or negative, and make sure to keep it that way
+            if (motion.y < 0) {
+                motion.y = -max_offset;
+            } else {
+                motion.y = max_offset;
+            }
+        }
+
+    });
+
+    // Reset the position of motion controls when device changes between portrait and landscape, etc.
+    window.addEventListener('orientationchange', function(event) {
+        motion_initial.x = null;  // Use null to be consistent
+        motion_initial.y = null;
+    });
+}
+
+// Function to request gyroscope permission
+function requestGyroPermission() {
+	alert("Request permission!");
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // iOS 13+
+        DeviceOrientationEvent.requestPermission()
+            .then(permissionState => {
+                if (permissionState === 'granted') {
+                    hasGyroPermission = true;
+                    alert("Gyroscope permission granted.");
+                    setupGyro(); // Set up the gyro *after* getting permission
+                    document.getElementById('requestPermissionButton').remove();
+                } else {
+                    console.log('Gyroscope permission denied.');
+                    // Handle the denied case (e.g., show a message to the user)
+                    showPermissionDeniedMessage();
+                }
+            })
+            .catch(console.error); // Catch any errors during permission request
+    } else {
+    	alert("Permission not needed");
+        // Handle older browsers that don't require permission (Android, older iOS)
+		hasGyroPermission = true;
+        setupGyro(); // No permission needed, set up directly
+        document.getElementById('requestPermissionButton').remove();
+    }
+}
+
+// --- Example usage (HTML and JavaScript) ---
+
+// Create a button in your HTML:
+// <button id="requestPermissionButton">Enable Gyroscope</button>
+// Or, if you prefer to create the button in JavaScript:
+
+const button = document.createElement("button");
+button.id = "requestPermissionButton";
+button.textContent = "Enable Gyroscope";
+document.body.appendChild(button); //add to your page
+
+// Add a click event listener to the button:
+document.getElementById('requestPermissionButton').addEventListener('click', requestGyroPermission);
+
+// --- Placeholder functions for demonstration ---
+
+function showPermissionDeniedMessage() {
+    // Display a message to the user explaining that the feature won't work
+    // without permission.  You might use a modal or a simple alert.
+    alert("Gyroscope permission is required for this feature to work.  Please enable it in your browser settings.");
+}

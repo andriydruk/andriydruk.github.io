@@ -5,7 +5,7 @@ theme = "min-blog"
 
 metadataformat = "yaml"
 canonifyurls = true
-pagination.pagerSize = 10
+paginate = 10
 copyright = "Code released under the Apache 2.0 license."
 
 [author]

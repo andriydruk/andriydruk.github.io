@@ -7,7 +7,7 @@ onmain = false
 
 I am Andriy Druk: a software engineer, writer, geek. I'm passionate about creating mobile apps and currently I'm working on [Spark Mail App](https://sparkmailapp.com/) project at [Readdle](https://readdle.com/) in Odessa, UA.
 
- I am also the creator of developer tools such as [LM Playground](https://play.google.com/store/apps/details?id=com.druk.lmplayground), [Swift Android Toolchain](https://github.com/readdle/swift-android-toolchain) and [Bonjour Browser](https://github.com/andriydruk/BonjourBrowser). If you find my tools and insights valuable, consider supporting my work on [buymeacoffee](https://buymeacoffee.com/andriydruk).
+ I am also the creator of developer tools such as [LM Playground](https://play.google.com/store/apps/details?id=com.druk.lmplayground), [Swift Android Toolchain](https://github.com/readdle/swift-android-toolchain) and [Bonjour Browser](https://github.com/andriydruk/BonjourBrowser).
 
 * Cotanct me: [me@andriydruk.com](mailto:me@andriydruk.com)
 * Follow me: [@andriydruk](https://andriydruk@mastodon.social/@andriydruk)

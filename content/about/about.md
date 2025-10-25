@@ -12,9 +12,10 @@ I’m currently the Lead of the AI/ML Team at [Readdle](https://readdle.com/), w
 I’m also a member of the [Swift on Android Working Group](https://www.swift.org/android-workgroup/), contributing to the [Swift SDK for Android](https://www.swift.org/documentation/articles/swift-sdk-for-android-getting-started.html) and helping make Swift a first-class language for Android development.
 
 I have long roots in the developer community and open source:
-- [Bonjour Browser](https://github.com/andriydruk/BonjourBrowser) — a network-service-discovery utility for developers (and the related RxDNSSD library for Android).
-- [Swift Android Toolchain](https://github.com/readdle/swift-android-toolchain) — enabling Swift to compile and target Android from macOS.
-- [LM Playground](https://github.com/andriydruk/LMPlayground) — a sandbox for experimenting with large-language-model integrations and prototyping intelligent app features.
+
+* [Bonjour Browser](https://github.com/andriydruk/BonjourBrowser) — a network-service-discovery utility for developers (and the related RxDNSSD library for Android).
+* [Swift Android Toolchain](https://github.com/readdle/swift-android-toolchain) — enabling Swift to compile and target Android from macOS.
+* [LM Playground](https://github.com/andriydruk/LMPlayground) — a sandbox for experimenting with large-language-model integrations and prototyping intelligent app features.
 
 If you’d like to chat about Swift on Android, mobile UX, cross-platform development, or applied AI — I’d love to connect.
 

@@ -6,8 +6,22 @@ project_type: "Toolchain"
 stars: "400+"
 image: "/img/swift-android.png"
 ---
-Swift Android Toolchain - a collection of tools that gives Android developers the ability to use Swift in their projects comfortably and without any hassles. It is an open-source project based on Apple Swift compiler and SwiftJava and SwiftAndroid projects. You can download the toolchain directly from Github Release (Mac only) or compile on your own from source code.
 
-[Swift Java Codegen](https://github.com/readdle/swift-java-codegen) is a annotation procerssor for Java and/or Kotlin that generate Swift JNI Bridge for accessing JVM from native code.
+<span style="color: var(--fallout-amber);">[DESCRIPTION]</span> Collection of tools that gives Android developers the ability to use Swift in their projects comfortably and without any hassles.
 
-[Swift Weather](https://github.com/andriydruk/swift-weather-app) is a cross-platform Swift application. Architecture based on reusing as much as possible code written on Swift. Currently, Swift Weather Core includes weather repository that handles loading info from the database and fetching new data from providers.
+<span style="color: var(--fallout-amber);">[FOUNDATION]</span>
+- Open-source project based on **Apple Swift compiler**
+- Built on **SwiftJava** and **SwiftAndroid** projects
+- Enables cross-platform Swift development
+
+<span style="color: var(--fallout-amber);">[INSTALLATION]</span>
+- Download toolchain directly from **Github Release** (Mac only)
+- Or compile from source code
+
+<span style="color: var(--fallout-amber);">[RELATED PROJECTS]</span>
+
+<span style="color: var(--fallout-green);">$</span> **[Swift Java Codegen](https://github.com/readdle/swift-java-codegen)**<br>
+<span style="color: var(--fallout-text-dim); margin-left: 20px;">Annotation processor for Java and/or Kotlin that generates Swift JNI Bridge for accessing JVM from native code.</span>
+
+<span style="color: var(--fallout-green);">$</span> **[Swift Weather](https://github.com/andriydruk/swift-weather-app)**<br>
+<span style="color: var(--fallout-text-dim); margin-left: 20px;">Cross-platform Swift application demonstrating architecture based on reusing Swift code. Includes Swift Weather Core with weather repository that handles loading info from database and fetching new data from providers.</span>

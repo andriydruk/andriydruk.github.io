@@ -1,0 +1,14 @@
+{{ partial "header.html" .}}
+
+        <h1 style="text-align: center; margin-top: 20px;">
+            <span style="color: var(--fallout-green);">$</span> <span style="color: var(--fallout-amber);">ABOUT</span>
+        </h1>
+
+        <div style="margin-top: 30px;">
+            {{ range (where .Data.Pages "Type" "about") }}
+                {{ .Render "single"}}
+            {{ end }}
+        </div>
+
+{{ partial "footer.html" .}}
+

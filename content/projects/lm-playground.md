@@ -5,6 +5,19 @@ title: "LM Playground"
 project_type: "Android application"
 image: "/img/lm-playground.jpg"
 ---
-LM Playground is designed as a universal platform for experimenting with various types of Large Language Models (LLMs) on your device. It allows users to download different LLMs, load them onto the application, and converse with these models. This setup allows for a hands-on exploration of the capabilities and distinctions between different LLMs, making it an invaluable tool for enthusiasts, researchers, or anyone curious about the advancements in language model technology.
 
-This project was built based on llama.cpp project with OpenCL optimization for better performance. The application uses GGUF-format models with Q4KM quantization, which will be saved to the Downloads folder.
+<span style="color: var(--fallout-amber);">[DESCRIPTION]</span> Universal platform for experimenting with various types of Large Language Models (LLMs) on your device.
+
+<span style="color: var(--fallout-amber);">[CAPABILITIES]</span>
+- Download and load different LLM models
+- Local device execution for privacy and offline use
+- Interactive conversation interface
+- Compare capabilities and distinctions between different LLMs
+
+<span style="color: var(--fallout-amber);">[TECHNICAL SPECS]</span>
+- Built on **llama.cpp** project foundation
+- **OpenCL optimization** for enhanced performance
+- Supports **GGUF-format models** with **Q4KM quantization**
+- Models saved to Downloads folder for easy access
+
+<span style="color: var(--fallout-amber);">[USE CASE]</span> Invaluable tool for enthusiasts, researchers, or anyone curious about the advancements in language model technology.

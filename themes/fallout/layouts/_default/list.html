@@ -1,0 +1,70 @@
+{{ partial "header.html" .}}
+
+        <h1 style="text-align: center; margin-top: 20px;">
+            <span style="color: var(--fallout-green);">$</span> <span style="color: var(--fallout-amber);">{{ upper .Section }}</span> ARCHIVES
+        </h1>
+
+        <div class="alert">
+            <h4 style="color: var(--fallout-amber); text-transform: uppercase; letter-spacing: 2px;">⚠️ VAULT-TEC EMERGENCY BROADCAST SYSTEM ⚠️</h4>
+            <p style="margin-top: 15px; color: var(--fallout-text);">
+                <span style="color: var(--fallout-amber);">[STATUS]</span> CRITICAL ALERT - SECTOR UKRAINE<br>
+                <span style="color: var(--fallout-amber);">[DATE]</span> 2022-02-24<br>
+                <span style="color: var(--fallout-amber);">[THREAT LEVEL]</span> MAXIMUM
+            </p>
+            <p style="color: var(--fallout-text); margin-top: 15px;">
+                On February 24, 2022, hostile forces initiated an <a href="https://war.ukraine.ua/russia-war-crimes/">unprovoked military incursion</a> against sovereign territory. 
+                Civilian infrastructure including educational facilities and medical centers have been targeted. 
+                Non-combatant personnel are under direct threat.
+            </p>
+            <p style="color: var(--fallout-text); margin-top: 15px;">
+                <span style="color: var(--fallout-amber);">[ACTION REQUIRED]</span> All available resources must be directed to support operations. 
+                Contact local command structures, engage in peaceful resistance protocols, and allocate supplies through verified channels.
+            </p>
+            <p style="color: var(--fallout-amber); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px;">
+                Verified Supply Channels:
+            </p>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin: 8px 0;">
+                    <span style="color: var(--fallout-green);">$</span> 
+                    <a href="https://savelife.in.ua/en">Come Back Alive</a> 
+                    <span style="color: var(--fallout-text-dim);">[STATUS: ACTIVE]</span>
+                </li>
+                <li style="margin: 8px 0;">
+                    <span style="color: var(--fallout-green);">$</span> 
+                    <a href="https://koloua.com/en/">KOLO</a> 
+                    <span style="color: var(--fallout-text-dim);">[STATUS: ACTIVE]</span>
+                </li>
+                <li style="margin: 8px 0;">
+                    <span style="color: var(--fallout-green);">$</span> 
+                    <a href="https://prytulafoundation.org/en">Serhiy Prytula Charity Foundation</a> 
+                    <span style="color: var(--fallout-text-dim);">[STATUS: ACTIVE]</span>
+                </li>
+            </ul>
+            <p style="color: var(--fallout-text-dim); margin-top: 15px; font-size: 0.9em; text-align: center;">
+                🇺🇦 STAND WITH UKRAINE 🇺🇦
+            </p>
+        </div>
+
+        <div class="post-list">
+            {{ range .Pages }}
+                <a href="{{ if isset .Params "externallink" }}{{ .Params.externallink }}{{ else }}{{ .Permalink }}{{ end }}" {{ if isset .Params "externallink" }}target="_blank" rel="noopener noreferrer" class="external-link"{{ end }} style="text-decoration: none; display: block;">
+                    <div class="terminal-command" style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="flex: 1;">
+                            <span style="color: var(--fallout-green);">$</span>
+                            <span style="color: var(--fallout-text); margin-left: 5px;">
+                                {{ .Title }}
+                            </span>
+                            {{ if .Date }}
+                            <span style="color: var(--fallout-text-dim); margin-left: 15px;">{{ .Date.Format "2006-01-02" }}</span>
+                            {{ end }}
+                        </div>
+                        {{ if isset .Params "externallink" }}
+                        <span style="color: var(--fallout-green); font-size: 1.1em; margin-left: 15px; flex-shrink: 0;">🌐</span>
+                        {{ end }}
+                    </div>
+                </a>
+            {{ end }}
+        </div>
+
+{{ partial "footer.html" .}}
+

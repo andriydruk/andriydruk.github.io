@@ -1,0 +1,16 @@
+{{ partial "header.html" .}}
+
+        <h1 style="margin-top: 20px;">{{ title .Title }}</h1>
+        
+        <div class="post-meta" style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--fallout-border);">
+            {{ if .Date }}
+            <span style="color: var(--fallout-amber);">DATE:</span> {{ .Date.Format "Jan 2, 2006" }}
+            {{ end }}
+        </div>
+
+        <article>
+            {{ .Content }}
+        </article>
+
+{{ partial "footer.html" .}}
+

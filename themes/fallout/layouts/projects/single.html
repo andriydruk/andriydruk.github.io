@@ -1,0 +1,41 @@
+<div style="padding: 25px; margin-bottom: 30px; background: rgba(0, 255, 0, 0.03); position: relative;">
+
+    <div style="margin-top: 15px;">
+        {{ if .Params.Image }}
+        <div style="width: 100%; margin-bottom: 25px;">
+            <img src="{{ .Params.Image }}" style="width: 100%; display: block;">
+        </div>
+        {{ end }}
+
+        <div>
+            <h2 style="margin-top: 0; color: var(--fallout-amber);">
+                <a href="{{ .Params.repo }}" style="color: var(--fallout-amber); text-decoration: none; text-transform: uppercase; letter-spacing: 2px;">{{ .Title }}</a>
+                {{ if isset .Params "stars" }}
+                <span style="color: var(--fallout-text-dim); font-size: 0.7em; margin-left: 10px;">★ {{ .Params.stars }} STARS</span>
+                {{ end }}
+            </h2>
+            
+            <div style="margin: 15px 0; padding: 10px; background: rgba(0, 255, 0, 0.05); border-left: 3px solid var(--fallout-green);">
+                <div style="color: var(--fallout-amber); font-size: 0.9em; margin-bottom: 5px;">[PROJECT INFO]</div>
+                {{ if .Params.project_type }}
+                <div style="color: var(--fallout-text); margin: 5px 0;">
+                    <span style="color: var(--fallout-green);">$</span> <span style="color: var(--fallout-amber);">TYPE:</span> {{ .Params.project_type }}
+                </div>
+                {{ end }}
+                {{ if .Date }}
+                <div style="color: var(--fallout-text); margin: 5px 0;">
+                    <span style="color: var(--fallout-green);">$</span> <span style="color: var(--fallout-amber);">DATE:</span> {{ .Date.Format "2006-01-02" }}
+                </div>
+                {{ end }}
+                <div style="color: var(--fallout-text); margin: 5px 0;">
+                    <span style="color: var(--fallout-green);">$</span> <span style="color: var(--fallout-amber);">REPO:</span> 
+                    <a href="{{ .Params.repo }}" style="color: var(--fallout-green);">{{ .Params.repo }}</a>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; color: var(--fallout-text);">
+                {{ .Content }}
+            </div>
+        </div>
+    </div>
+</div>

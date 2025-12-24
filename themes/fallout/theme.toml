@@ -1,0 +1,13 @@
+name = "Fallout"
+license = "MIT"
+licenselink = "https://github.com/andriydruk/andriydruk.github.io/blob/master/LICENSE"
+description = "A retro-futuristic Fallout-inspired theme for Hugo"
+homepage = "https://www.andriydruk.com"
+tags = ["retro", "terminal", "fallout", "post-apocalyptic"]
+features = ["terminal-style", "retro-futuristic", "CRT effects"]
+min_version = 0.14
+
+[author]
+  name = "Andriy Druk"
+  homepage = "https://www.andriydruk.com"
+

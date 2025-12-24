@@ -1,0 +1,521 @@
+/* Fallout Theme - Retro-Futuristic Terminal Style */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+:root {
+    --fallout-green: #00ff00;
+    --fallout-green-dark: #00cc00;
+    --fallout-amber: #ffb000;
+    --fallout-bg: #0a0a0a;
+    --fallout-bg-dark: #000000;
+    --fallout-text: #00ff00;
+    --fallout-text-dim: #00cc00;
+    --fallout-border: #00ff00;
+    --fallout-glow: rgba(0, 255, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background-color: var(--fallout-bg-dark);
+    color: var(--fallout-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    animation: flicker 0.15s infinite;
+}
+
+/* CRT Screen Effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.15),
+            rgba(0, 0, 0, 0.15) 1px,
+            transparent 1px,
+            transparent 2px
+        );
+    pointer-events: none;
+    z-index: 1000;
+    animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* Flicker Effect */
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.98; }
+}
+
+/* Container Styling */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Terminal Navigation */
+.terminal-nav {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--fallout-border);
+    margin-bottom: 0;
+}
+
+.terminal-nav::after {
+    content: '>';
+    color: var(--fallout-green);
+    animation: blink 1s infinite;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* Navigation */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: var(--fallout-text);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 2px;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--fallout-green-dark);
+    border-color: var(--fallout-border);
+    box-shadow: 0 0 10px var(--fallout-glow);
+    text-shadow: 0 0 5px var(--fallout-green);
+}
+
+.nav-links a.active {
+    border-color: var(--fallout-border);
+    box-shadow: 0 0 10px var(--fallout-glow);
+}
+
+/* Terminal Window */
+.terminal-window {
+    background: var(--fallout-bg);
+    border: 2px solid var(--fallout-border);
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 0 30px var(--fallout-glow);
+    position: relative;
+    min-height: 400px;
+}
+
+.terminal-window::before {
+    content: 'VAULT-TEC TERMINAL v 1.0';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--fallout-bg-dark);
+    padding: 0 10px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--fallout-amber);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--fallout-amber);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--fallout-glow);
+}
+
+h1 {
+    font-size: 2.5em;
+    border-bottom: 2px solid var(--fallout-border);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+}
+
+h3 {
+    font-size: 1.4em;
+}
+
+p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+a {
+    color: var(--fallout-green);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--fallout-green);
+    transition: all 0.3s;
+}
+
+a:hover {
+    color: var(--fallout-amber);
+    border-bottom-color: var(--fallout-amber);
+    text-shadow: 0 0 5px var(--fallout-amber);
+}
+
+/* External Links */
+a.external-link {
+    position: relative;
+}
+
+a.external-link:hover {
+    box-shadow: 0 0 10px var(--fallout-amber);
+    background: rgba(255, 176, 0, 0.1);
+}
+
+a.external-link:hover span[style*="🌐"] {
+    animation: pulse-globe 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes pulse-globe {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.2);
+        filter: brightness(1.5);
+    }
+}
+
+
+/* Lists */
+ul, ol {
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+li::marker {
+    color: var(--fallout-amber);
+}
+
+/* Code Blocks */
+pre {
+    background: var(--fallout-bg-dark);
+    border: 1px solid var(--fallout-border);
+    padding: 15px;
+    overflow-x: auto;
+    margin: 20px 0;
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+code {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--fallout-green);
+    background: var(--fallout-bg-dark);
+    padding: 2px 6px;
+    border: 1px solid var(--fallout-border);
+}
+
+pre code {
+    border: none;
+    padding: 0;
+    background: transparent;
+}
+
+/* Blockquotes */
+blockquote {
+    border-left: 4px solid var(--fallout-amber);
+    padding-left: 20px;
+    margin: 20px 0;
+    font-style: italic;
+    color: var(--fallout-text-dim);
+}
+
+/* Alerts */
+.alert {
+    background: var(--fallout-bg);
+    border: 2px solid var(--fallout-amber);
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 0 20px rgba(255, 176, 0, 0.3);
+}
+
+.alert h4 {
+    color: var(--fallout-amber);
+    margin-bottom: 10px;
+}
+
+.alert a {
+    color: var(--fallout-amber);
+    border-bottom-color: var(--fallout-amber);
+}
+
+/* Post List */
+.post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Terminal Command Style */
+.terminal-command {
+    font-family: 'Share Tech Mono', monospace;
+    padding: 8px 0;
+    margin: 0;
+    line-height: 1.8;
+    border-bottom: 1px dotted rgba(0, 255, 0, 0.2);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.terminal-command:not([style*="display: flex"]) {
+    display: block;
+}
+
+.terminal-command:hover {
+    background: rgba(0, 255, 0, 0.05);
+    padding-left: 5px;
+    border-bottom-color: var(--fallout-green);
+}
+
+/* Make entire list item clickable */
+.post-list > a {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+
+.post-list > a:hover {
+    color: inherit;
+}
+
+.post-item {
+    border: 1px solid var(--fallout-border);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: var(--fallout-bg);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.post-item:hover {
+    box-shadow: 0 0 20px var(--fallout-glow);
+    border-color: var(--fallout-amber);
+    transform: translateX(5px);
+}
+
+.post-item::before {
+    content: '> ';
+    color: var(--fallout-green);
+    position: absolute;
+    left: -20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.post-item:hover::before {
+    opacity: 1;
+}
+
+.post-title {
+    color: var(--fallout-amber);
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.post-meta {
+    color: var(--fallout-text-dim);
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.post-excerpt {
+    color: var(--fallout-text);
+    margin-top: 10px;
+}
+
+/* Terminal Footer */
+.terminal-footer {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .terminal-window {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .post-item {
+        padding: 15px;
+    }
+    
+    /* About page S.P.E.C.I.A.L. layout responsive */
+    div[style*="grid-template-columns: 2fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    div[style*="grid-template-columns: 2fr 1fr"] > div:last-child {
+        margin-top: 20px;
+        text-align: center;
+    }
+}
+
+/* Projects grid responsive */
+@media (max-width: 768px) {
+    .project-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .book-layout {
+        flex-direction: column !important;
+    }
+}
+
+/* Project image full width */
+.project-grid img {
+    max-height: 500px;
+    object-fit: cover;
+}
+
+/* Project Cards Hover Effect */
+div[style*="border: 2px solid var(--fallout-border)"][style*="PROJECT FILE"] {
+    transition: all 0.3s ease;
+}
+
+div[style*="border: 2px solid var(--fallout-border)"][style*="PROJECT FILE"]:hover {
+    box-shadow: 0 0 25px var(--fallout-amber) !important;
+    border-color: var(--fallout-amber) !important;
+    transform: translateY(-2px);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--fallout-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--fallout-border);
+    border: 2px solid var(--fallout-bg-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--fallout-amber);
+}
+
+/* Selection */
+::selection {
+    background: var(--fallout-green);
+    color: var(--fallout-bg-dark);
+}
+
+::-moz-selection {
+    background: var(--fallout-green);
+    color: var(--fallout-bg-dark);
+}
+
+/* Images */
+article img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid var(--fallout-border);
+    box-shadow: 0 0 15px var(--fallout-glow);
+    margin: 20px 0;
+    display: block;
+}
+
+article img:hover {
+    box-shadow: 0 0 25px var(--fallout-amber);
+    border-color: var(--fallout-amber);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 1px solid var(--fallout-border);
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid var(--fallout-border);
+    text-align: left;
+}
+
+th {
+    background: var(--fallout-bg);
+    color: var(--fallout-amber);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+tr:nth-child(even) {
+    background: rgba(0, 255, 0, 0.05);
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    border-top: 2px solid var(--fallout-border);
+    margin: 30px 0;
+    box-shadow: 0 0 10px var(--fallout-glow);
+}
+

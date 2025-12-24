@@ -1,0 +1,18 @@
+{{ partial "header.html" .}}
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h1 style="font-size: 4em; margin: 20px 0; color: var(--fallout-amber);">404</h1>
+            <h2 style="margin-bottom: 30px;">PIP-BOY ERROR</h2>
+            <p style="font-size: 1.2em; margin-bottom: 30px;">
+                The terminal cannot locate the requested file.<br>
+                The data may have been corrupted or deleted.
+            </p>
+            <p>
+                <a href="{{ .Site.BaseURL }}/" style="font-size: 1.1em; padding: 10px 20px; border: 2px solid var(--fallout-border); display: inline-block;">
+                    RETURN TO MAIN TERMINAL
+                </a>
+            </p>
+        </div>
+
+{{ partial "footer.html" .}}
+

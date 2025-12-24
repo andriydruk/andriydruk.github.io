@@ -1,0 +1,33 @@
+{{ partial "header.html" .}}
+
+        <div style="display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; margin-top: 20px;" class="book-layout">
+            {{ if .Params.Cover }}
+            <div style="flex-shrink: 0;">
+                <img src="{{ .Params.Cover }}" style="width: 150px; height: auto; border: 2px solid var(--fallout-border); box-shadow: 0 0 20px var(--fallout-glow);">
+            </div>
+            {{ end }}
+            <div style="flex: 1; min-width: 300px;">
+                <h1 style="margin-top: 0;">
+                    {{ .Title }}
+                    {{ if .Params.author }}
+                    <small style="color: var(--fallout-text-dim); font-size: 0.7em;">/ {{ .Params.author }}</small>
+                    {{ end }}
+                </h1>
+                {{ .Content }}
+                <div style="margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
+                    {{ if .Params.Googleplaybooks }}
+                    <a href="{{ .Params.Googleplaybooks }}">
+                        <img src="{{ $.Site.BaseURL }}/img/google-play-badge.png" style="height: 40px; border: 1px solid var(--fallout-border); padding: 5px;">
+                    </a>
+                    {{ end }}
+                    {{ if .Params.Amazon }}
+                    <a href="{{ .Params.Amazon }}">
+                        <img src="{{ $.Site.BaseURL }}/img/amazon-logo_black.png" style="height: 40px; border: 1px solid var(--fallout-border); padding: 5px; background: white;">
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+
+{{ partial "footer.html" .}}
+

@@ -1,0 +1,17 @@
+<a href="{{ if isset .Params "externallink" }}{{ .Params.externallink }}{{ else }}{{ .Permalink }}{{ end }}" {{ if isset .Params "externallink" }}target="_blank" rel="noopener noreferrer" class="external-link"{{ end }} style="text-decoration: none; display: block;">
+    <div class="terminal-command" style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="flex: 1;">
+            <span style="color: var(--fallout-green);">$</span>
+            <span style="color: var(--fallout-text); margin-left: 5px;">
+                {{ .Title }}
+            </span>
+            {{ if .Date }}
+            <span style="color: var(--fallout-text-dim); margin-left: 15px;">{{ .Date.Format "2006-01-02" }}</span>
+            {{ end }}
+        </div>
+        {{ if isset .Params "externallink" }}
+        <span style="color: var(--fallout-green); font-size: 1.1em; margin-left: 15px; flex-shrink: 0;">🌐</span>
+        {{ end }}
+    </div>
+</a>
+

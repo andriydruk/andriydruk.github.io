@@ -1,0 +1,40 @@
+{{ partial "header.html" .}}
+
+        <h1 style="margin-top: 20px;">{{ title .Title }}</h1>
+        
+        <div class="post-meta" style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--fallout-border);">
+            <span style="color: var(--fallout-amber);">DATE:</span> {{ .Date.Format "Jan 2, 2006" }}
+            {{ if .Params.categories }}
+            | <span style="color: var(--fallout-amber);">CATEGORY:</span> 
+            {{ range $index, $category := .Params.categories }}{{ if $index }}, {{ end }}<a href="{{ $.Site.BaseURL }}/categories/{{ $category | urlize }}">{{ $category }}</a>{{ end }}
+            {{ end }}
+            {{ if .Params.tags }}
+            | <span style="color: var(--fallout-amber);">TAGS:</span>
+            {{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}<a href="{{ $.Site.BaseURL }}/tags/{{ $tag | urlize }}">{{ $tag }}</a>{{ end }}
+            {{ end }}
+        </div>
+
+        {{ if isset .Params "externallink" }}
+        <div style="border: 2px solid var(--fallout-amber); padding: 20px; margin-bottom: 30px; background: rgba(255, 176, 0, 0.1);">
+            <div style="color: var(--fallout-amber); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">
+                ⚠️ EXTERNAL LINK DETECTED
+            </div>
+            <p style="color: var(--fallout-text); margin-bottom: 15px;">
+                This article is hosted externally. Clicking the link below will navigate away from this terminal.
+            </p>
+            <a href="{{ .Params.externallink }}" target="_blank" rel="noopener noreferrer" class="external-link" style="display: inline-block; padding: 10px 20px; border: 2px solid var(--fallout-amber); color: var(--fallout-amber); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;">
+                OPEN EXTERNAL ARTICLE <span style="color: var(--fallout-green); margin-left: 5px;">🌐</span>
+            </a>
+        </div>
+        {{ end }}
+
+        <article>
+            {{ .Content }}
+        </article>
+
+        {{ if isset .Params "comments" }}
+            {{ partial "comments.html" .}}
+        {{ end }}
+
+{{ partial "footer.html" .}}
+

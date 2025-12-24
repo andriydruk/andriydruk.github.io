@@ -1,0 +1,58 @@
+{{ partial "header.html" .}}
+
+        <h1 style="text-align: center; margin-top: 20px;">
+            <span style="color: var(--fallout-green);">$</span> <span style="color: var(--fallout-amber);">PROJECTS</span> ARCHIVE
+        </h1>
+
+        <div class="alert">
+            <h4 style="color: var(--fallout-amber); text-transform: uppercase; letter-spacing: 2px;">⚠️ VAULT-TEC EMERGENCY BROADCAST SYSTEM ⚠️</h4>
+            <p style="margin-top: 15px; color: var(--fallout-text);">
+                <span style="color: var(--fallout-amber);">[STATUS]</span> CRITICAL ALERT - SECTOR UKRAINE<br>
+                <span style="color: var(--fallout-amber);">[DATE]</span> 2022-02-24<br>
+                <span style="color: var(--fallout-amber);">[THREAT LEVEL]</span> MAXIMUM
+            </p>
+            <p style="color: var(--fallout-text); margin-top: 15px;">
+                On February 24, 2022, hostile forces initiated an <a href="https://war.ukraine.ua/russia-war-crimes/">unprovoked military incursion</a> against sovereign territory. 
+                Civilian infrastructure including educational facilities and medical centers have been targeted. 
+                Non-combatant personnel are under direct threat.
+            </p>
+            <p style="color: var(--fallout-text); margin-top: 15px;">
+                <span style="color: var(--fallout-amber);">[ACTION REQUIRED]</span> All available resources must be directed to support operations. 
+                Contact local command structures, engage in peaceful resistance protocols, and allocate supplies through verified channels.
+            </p>
+            <p style="color: var(--fallout-amber); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px;">
+                Verified Supply Channels:
+            </p>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin: 8px 0;">
+                    <span style="color: var(--fallout-green);">$</span> 
+                    <a href="https://savelife.in.ua/en">Come Back Alive</a> 
+                    <span style="color: var(--fallout-text-dim);">[STATUS: ACTIVE]</span>
+                </li>
+                <li style="margin: 8px 0;">
+                    <span style="color: var(--fallout-green);">$</span> 
+                    <a href="https://koloua.com/en/">KOLO</a> 
+                    <span style="color: var(--fallout-text-dim);">[STATUS: ACTIVE]</span>
+                </li>
+                <li style="margin: 8px 0;">
+                    <span style="color: var(--fallout-green);">$</span> 
+                    <a href="https://prytulafoundation.org/en">Serhiy Prytula Charity Foundation</a> 
+                    <span style="color: var(--fallout-text-dim);">[STATUS: ACTIVE]</span>
+                </li>
+            </ul>
+            <p style="color: var(--fallout-text-dim); margin-top: 15px; font-size: 0.9em; text-align: center;">
+                🇺🇦 STAND WITH UKRAINE 🇺🇦
+            </p>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 2px solid var(--fallout-border); padding-top: 30px;">
+            <h2 style="text-align: center; margin-bottom: 40px; color: var(--fallout-amber); text-transform: uppercase; letter-spacing: 3px;">
+                <span style="color: var(--fallout-green);">$</span> ACTIVE PROJECTS
+            </h2>
+
+            {{ range .Pages }}
+                {{ .Render "single"}}
+            {{ end }}
+        </div>
+
+{{ partial "footer.html" .}}

@@ -1,7 +1,7 @@
 baseurl = "https://www.andriydruk.com"
 languageCode = "en-us"
 title = "Andriy Druk"
-theme = "min-blog"
+theme = "fallout"
 
 metadataformat = "yaml"
 canonifyurls = true

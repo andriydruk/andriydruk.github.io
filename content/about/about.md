@@ -77,12 +77,15 @@ onmain = false
 <div style="margin: 20px 0;">
 
 <span style="color: var(--fallout-green);">$</span> **[Bonjour Browser](https://github.com/andriydruk/BonjourBrowser)**<br>
+
 <span style="color: var(--fallout-text-dim); margin-left: 20px;">Network service discovery utility for developers. Includes RxDNSSD library for Android.</span>
 
 <span style="color: var(--fallout-green);">$</span> **[Swift Android Toolchain](https://github.com/readdle/swift-android-toolchain)**<br>
+
 <span style="color: var(--fallout-text-dim); margin-left: 20px;">Enabling Swift compilation and Android targeting from macOS.</span>
 
 <span style="color: var(--fallout-green);">$</span> **[LM Playground](https://github.com/andriydruk/LMPlayground)**<br>
+
 <span style="color: var(--fallout-text-dim); margin-left: 20px;">Sandbox environment for large-language-model integrations and intelligent app feature prototyping.</span>
 
 </div>

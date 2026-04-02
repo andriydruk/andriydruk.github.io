@@ -7,8 +7,8 @@ stars: "400+"
 image: "/img/swift-android.png"
 ---
 
-Swift Android Toolchain - a collection of tools that gives Android developers the ability to use Swift in their projects comfortably and without any hassles. It is an open-source project based on Apple Swift compiler and SwiftJava and SwiftAndroid projects. You can download the toolchain directly from Github Release (Mac only) or compile on your own from source code.
+[Swift SDK for Android](https://github.com/readdle/swift-android-toolchain) is a fork of the official Swift SDK for Android that includes Readdle's patches. It can be used on any platform that supports the official Swift toolchain installed via [swiftly](https://www.swift.org/install/). Built on the official Swift SDK build scripts.
 
-[Swift Java Codegen](https://github.com/readdle/swift-java-codegen) is a annotation processor for Java and/or Kotlin that generate Swift JNI Bridge for accessing JVM from native code.
+[Swift Android Build Tools](https://github.com/readdle/swift-android-buildtools) is a command-line toolset for building and testing Swift packages on Android. It wraps Swift Package Manager for cross-compiling and runs XCTest suites on connected devices via ADB.
 
-[Swift Weather](https://github.com/andriydruk/swift-weather-app) is a cross-platform Swift application. Architecture based on reusing as much as possible code written on Swift. Currently, Swift Weather Core includes weather repository that handles loading info from the database and fetching new data from providers.
+[Swift Weather](https://github.com/andriydruk/swift-weather-app) is a cross-platform Swift weather application for Android, iOS, iPadOS, and macOS. It shares a common Swift core for business logic, networking, and persistence, with native UI on each platform — Jetpack Compose on Android and SwiftUI on Apple platforms. The [source code](https://github.com/andriydruk/swift-weather-app) is available under the MIT license.

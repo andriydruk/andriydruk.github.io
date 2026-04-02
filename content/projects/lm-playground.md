@@ -6,18 +6,6 @@ project_type: "Android application"
 image: "/img/lm-playground.jpg"
 ---
 
-<span style="color: var(--fallout-amber);">[DESCRIPTION]</span> Universal platform for experimenting with various types of Large Language Models (LLMs) on your device.
+[LM Playground](https://play.google.com/store/apps/details?id=com.druk.lmplayground) is an Android app for running Large Language Models locally on your device. Download models from a curated list or load any custom GGUF file, then chat with them entirely offline. Features thinking/reasoning mode, persistent conversations, and configurable generation parameters.
 
-<span style="color: var(--fallout-amber);">[CAPABILITIES]</span>
-- Download and load different LLM models
-- Local device execution for privacy and offline use
-- Interactive conversation interface
-- Compare capabilities and distinctions between different LLMs
-
-<span style="color: var(--fallout-amber);">[TECHNICAL SPECS]</span>
-- Built on **llama.cpp** project foundation
-- **OpenCL optimization** for enhanced performance
-- Supports **GGUF-format models** with **Q4KM quantization**
-- Models saved to Downloads folder for easy access
-
-<span style="color: var(--fallout-amber);">[USE CASE]</span> Invaluable tool for enthusiasts, researchers, or anyone curious about the advancements in language model technology.
+Built on [llama.cpp](https://github.com/ggerganov/llama.cpp) with KleidiAI-optimized kernels and OpenMP for arm64 performance. The [source code](https://github.com/andriydruk/LMPlayground) is available under the MIT license.

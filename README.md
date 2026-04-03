@@ -1,17 +1,19 @@
-# Yet Another Android Developer Blog
-It's just yet another Android developer blog. Enjoy ;)
+# andriydruk.github.io
 
-License
--------
+I'm **Andriy Druk** — a software engineer and technical writer focused on building high-quality mobile and cross-platform software. I'm especially interested in applying AI in practical ways, combining on-device and cloud solutions to create tools that are efficient, reliable, and genuinely helpful.
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+I'm currently the Lead of the AI/ML Team at [Readdle](https://readdle.com/), working on the flagship [Spark Mail App](https://sparkmailapp.com/). Previously, I led the Android team at Spark, bringing Swift development to the Android platform and helping launch [one of the most popular email apps](https://play.google.com/store/apps/details?id=com.readdle.spark) to the Android ecosystem.
 
-       http://www.apache.org/licenses/LICENSE-2.0
+I'm also a member of the [Swift on Android Working Group](https://www.swift.org/android-workgroup/), contributing to the [Swift SDK for Android](https://www.swift.org/documentation/articles/swift-sdk-for-android-getting-started.html) and helping make Swift a first-class language for Android development.
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+I have long roots in the developer community and open source:
+
+* [Bonjour Browser](https://github.com/andriydruk/BonjourBrowser) — a network-service-discovery utility for developers (and the related RxDNSSD library for Android).
+* [Swift Android Toolchain](https://github.com/readdle/swift-android-toolchain) — enabling Swift to compile and target Android from macOS.
+* [LM Playground](https://github.com/andriydruk/LMPlayground) — a sandbox for experimenting with large-language-model integrations and prototyping intelligent app features.
+
+If you'd like to chat about Swift on Android, mobile UX, cross-platform development, or applied AI — I'd love to connect.
+
+* Contact me: [me@andriydruk.com](mailto:me@andriydruk.com)
+* Follow me: [@andriydruk](https://mastodon.social/@andriydruk)
+* Github: [github.com/andriydruk](https://github.com/andriydruk)

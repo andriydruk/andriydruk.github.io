@@ -1,5 +1,5 @@
 ---
-date: 2019-01-01T00:07:18+02:00
+date: 2018-01-01T00:07:18+02:00
 repo: "https://github.com/readdle/swift-android-toolchain"
 title: "Swift Android Toolchain"
 project_type: "Toolchain"

@@ -1,11 +1,11 @@
 +++
 date = "2015-07-07T23:10:36+03:00"
-title = "Hello everyone and welcome"
+title = "Andriy Druk"
 image = "/img/logo.jpg"
 onmain = false
 +++
 
-I'm **Andriy Druk** - a software engineer and technical writer focused on building high-quality mobile and cross-platform software. I've spent the last eight years at [Readdle](https://readdle.com/) working on [Spark Mail](https://sparkmailapp.com/) - one of the most popular email clients in the world, running on iOS, Android, Mac, and Windows.
+I'm a software engineer and technical writer focused on building high-quality mobile and cross-platform software. I've spent the last eight years at [Readdle](https://readdle.com/) working on [Spark Mail](https://sparkmailapp.com/) - one of the most popular email clients in the world, running on iOS, Android, Mac, and Windows.
 
 ---
 

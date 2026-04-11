@@ -126,16 +126,24 @@ To show how compact these libraries have become, all three compile into a single
 var ldModule = null;
 var ldDetectFT, ldDetectCLD3, ldDetectCLD2;
 
-LangDetect({ locateFile: function(path) { return '/langdetect/' + path; } }).then(function(m) {
-  ldModule = m;
-  ldDetectFT = m.cwrap('detect_fasttext', 'string', ['string', 'number']);
-  ldDetectCLD3 = m.cwrap('detect_cld3', 'string', ['string', 'number']);
-  ldDetectCLD2 = m.cwrap('detect_cld2', 'string', ['string', 'number']);
-  document.getElementById('ld-status').textContent = 'Ready. Type to detect language.';
-}).catch(function(e) {
-  document.getElementById('ld-status').textContent = 'Failed to load WASM module.';
-  console.error('WASM load error:', e);
-});
+fetch('/langdetect/langdetect.wasm')
+  .then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.arrayBuffer();
+  })
+  .then(function(bin) {
+    return LangDetect({ wasmBinary: bin });
+  })
+  .then(function(m) {
+    ldModule = m;
+    ldDetectFT = m.cwrap('detect_fasttext', 'string', ['string', 'number']);
+    ldDetectCLD3 = m.cwrap('detect_cld3', 'string', ['string', 'number']);
+    ldDetectCLD2 = m.cwrap('detect_cld2', 'string', ['string', 'number']);
+    document.getElementById('ld-status').textContent = 'Ready. Type to detect language.';
+  }).catch(function(e) {
+    document.getElementById('ld-status').textContent = 'Failed to load WASM module: ' + e.message;
+    console.error('WASM load error:', e);
+  });
 
 var ldTimer = null;
 document.getElementById('ld-input').addEventListener('input', function() {

@@ -25,5 +25,8 @@ copyright = "Code released under the Apache 2.0 license."
 [markup.goldmark.renderer]
   unsafe = true # Allow HTML in md files
 
+[markup.goldmark.extensions.typographer]
+  disable = true
+
 [markup.highlight]
   noClasses = false

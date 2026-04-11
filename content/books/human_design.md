@@ -4,6 +4,7 @@ date: 2017-02-01T00:14:24+02:00
 googleplaybooks: "https://play.google.com/store/books/details/Brian_W_Kernighan_C_Programming_Language?id=Yi5FI5QcdmYC"
 amazon: "https://www.amazon.com/Programming-Language-Brian-W-Kernighan/dp/0131103628/"
 title: "The Humane Interface: New Directions for Designing Interactive Systems"
+image: "/img/og/human_design.png"
 cover: "https://images-na.ssl-images-amazon.com/images/I/41wqicWUyDL._SX339_BO1,204,203,200_.jpg"
 ganre: "technologies"
 ---

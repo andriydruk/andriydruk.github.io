@@ -1,7 +1,7 @@
 +++
 date = "2015-07-07T23:10:36+03:00"
 title = "Andriy Druk"
-image = "/img/logo.jpg"
+image = "/img/og/about.png"
 onmain = false
 +++
 

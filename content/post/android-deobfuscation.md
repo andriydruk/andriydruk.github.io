@@ -2,7 +2,7 @@
 date = "2015-08-04T22:40:49+03:00"
 description = ""
 draft = false
-image = "/img/material-002.jpg"
+image = "/img/og/android-deobfuscation.png"
 title = "Stacktrace deobfuscation"
 onmain = true
 comments = true

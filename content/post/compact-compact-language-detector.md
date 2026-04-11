@@ -4,6 +4,7 @@ date = "2026-04-11T12:00:00+03:00"
 description = "Pure C reimplementations of CLD3 and FastText language detection — no dependencies, no external files, all weights embedded in the binary."
 draft = false
 title = "Compact Compact Language Detector"
+image = "/img/og/compact-compact-language-detector.png"
 onmain = true
 comments = true
 

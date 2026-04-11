@@ -3,6 +3,7 @@ date = "2015-09-13T22:51:10+03:00"
 description = ""
 draft = false
 title = "Wrap Annoying APIs With RxJava"
+image = "/img/og/rxdnssd.png"
 onmain = false
 comments = true
 

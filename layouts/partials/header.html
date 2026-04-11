@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ if .Params.description }}{{ .Params.description }}{{ else if .IsPage }}{{ .Summary | plainify | truncate 200 }}{{ else }}{{ .Site.Params.Description }}{{ end }}">
+    <meta name="author" content="{{ .Site.Params.Author }}">
+
+    <title>{{ .Title }}</title>
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta property="og:title" content="{{ .Title }}">
+    <meta property="og:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else if .IsPage }}{{ .Summary | plainify | truncate 200 }}{{ else }}{{ .Site.Params.Description }}{{ end }}">
+    <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    {{ if .Params.image -}}
+    <meta property="og:image" content="{{ .Params.image | absURL }}">
+    {{- else -}}
+    <meta property="og:image" content="{{ "img/logo.jpg" | absURL }}">
+    {{- end }}
+    <meta property="og:locale" content="{{ .Site.LanguageCode }}">
+    {{ if .IsPage -}}
+    <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+    {{ if .Lastmod -}}<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+    {{- end }}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    {{ with .Site.Params.twitter -}}<meta name="twitter:site" content="@{{ . }}">{{ end }}
+    <meta name="twitter:title" content="{{ .Title }}">
+    <meta name="twitter:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else if .IsPage }}{{ .Summary | plainify | truncate 200 }}{{ else }}{{ .Site.Params.Description }}{{ end }}">
+    {{ if .Params.image -}}
+    <meta name="twitter:image" content="{{ .Params.image | absURL }}">
+    {{- else -}}
+    <meta name="twitter:image" content="{{ "img/logo.jpg" | absURL }}">
+    {{- end }}
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{{ .Site.BaseURL }}/favicon.png"/>
+
+    <!-- Google Fonts: Lora (headings) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ .Site.BaseURL }}/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- GitHub Markdown Body Styling -->
+    <link href="{{ .Site.BaseURL }}/css/github-markdown.css" rel="stylesheet">
+
+
+    <style>
+      i {
+        margin: 7px;
+      }
+      a.uncolored {
+        color: inherit;
+      }
+      pre {
+        padding: 0 !important;
+      }
+      .markdown-body pre {
+        padding: 16px !important;
+      }
+/*      a {
+        font-weight: bold;
+      }*/
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        /*.android {
+            background-image: url("../img/androids.svg");
+            background-repeat: no-repeat;
+            background-size: 2502px;
+            background-position: 50% 20%;
+            position: relative;
+        }*/
+
+        /* Override list group hihliights to always round */
+        .list-group-item {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* Custom font for title  */
+        @font-face {
+           font-family: Ermilov;
+            src: url(/fonts/Ermilov.woff2);
+        }
+        .title {
+            font-family: 'Lora', serif;
+            font-weight: 500;
+            line-height: 125%;
+        }
+
+        article {
+            margin-bottom: 40px;
+        }
+
+        .list-group-item-heading {
+            font-family: 'Lora', serif;
+            font-weight: 500;
+        }
+
+        /* ── Timeline ── */
+        .timeline {
+            position: relative;
+        }
+
+        /* Continuous vertical line spanning full timeline height */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            /* center of col-sm-1 after col-sm-5: (5/12 + 0.5/12) * 100% ≈ 45.83% */
+            left: calc(5 / 12 * 100% + 1 / 24 * 100%);
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            margin-left: -1px;
+            background: #ddd;
+        }
+
+        .timeline-center {
+            position: relative;
+            text-align: center;
+        }
+
+        /* Year label */
+        .timeline-year {
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .timeline-year-label {
+            display: inline-block;
+            position: relative;
+            font-family: 'Lora', serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: #999;
+            background: #fff;
+            padding: 6px 8px;
+            z-index: 1;
+            line-height: 1;
+        }
+
+        /* Project entry */
+        .timeline-item {
+            margin-bottom: 40px;
+        }
+
+        /* Dot on the timeline */
+        .timeline-dot {
+            position: relative;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #555;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #ddd;
+            margin: 6px auto 0;
+            z-index: 1;
+        }
+
+        /* ── Timeline responsive ── */
+        @media (max-width: 767px) {
+            .timeline::before {
+                display: none;
+            }
+
+            .timeline-center {
+                display: none;
+            }
+
+            .timeline-year {
+                text-align: center;
+                margin-bottom: 12px;
+            }
+
+            .timeline-year-label {
+                background: transparent;
+            }
+
+            .timeline-item {
+                margin-bottom: 30px;
+            }
+
+            .timeline-item .col-sm-5 {
+                margin-bottom: 16px;
+            }
+        }
+
+        /* ── Sticky image per project (desktop) ── */
+        @media (min-width: 768px) {
+            .timeline-row {
+                display: flex;
+                /* default stretch makes columns full height of row */
+            }
+
+            .timeline-row > [class*="col-"] {
+                float: none; /* override Bootstrap float for flex */
+            }
+
+            .sticky-img-wrap {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 40px;
+            }
+
+            .timeline-item {
+                margin-bottom: 40px;
+            }
+        }
+
+
+    </style>
+
+    <!-- Embedded Highlight.js-->
+    <link rel="stylesheet" href="/idea.css">
+    <script src="/highlight/highlight.pack.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</head>

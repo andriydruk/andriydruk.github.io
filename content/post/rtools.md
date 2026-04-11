@@ -3,6 +3,7 @@ date = "2015-10-18T14:36:40+03:00"
 description = ""
 draft = false
 title = "R.tools"
+image = "/img/og/rtools.png"
 onmain = false
 comments = true
 

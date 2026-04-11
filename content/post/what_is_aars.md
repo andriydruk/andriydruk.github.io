@@ -4,6 +4,7 @@ date = "2015-07-15T21:39:00+03:00"
 description = ""
 draft = false
 title = "Что такое .aar библиотеки?"
+image = "/img/og/what_is_aars.png"
 onmain = false
 comments = true
 

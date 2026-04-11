@@ -1,6 +1,7 @@
 +++
 date = "2017-05-01T23:10:36+03:00"
 title = "Introduction to C for Android Developers"
+image = "/img/og/introduction-to-c-for-android-developers.png"
 onmain = true
 comments = true
 

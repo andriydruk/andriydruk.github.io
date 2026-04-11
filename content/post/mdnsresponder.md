@@ -2,7 +2,7 @@
 date = "2015-09-05T14:14:19+03:00"
 description = ""
 draft = false
-image = "/img/material-003.png"
+image = "/img/og/mdnsresponder.png"
 title = "Bonjour in Android applications"
 onmain = true
 comments = true

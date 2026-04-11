@@ -1,0 +1,19 @@
+{
+  "name": "quizzical-gagarin",
+  "version": "1.0.0",
+  "description": "I'm **Andriy Druk** — a software engineer and technical writer focused on building high-quality mobile and cross-platform software. I'm especially interested in applying AI in practical ways, combining on-device and cloud solutions to create tools that are efficient, reliable, and genuinely helpful.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "@resvg/resvg-js": "^2.6.2",
+    "glob": "^13.0.6",
+    "gray-matter": "^4.0.3",
+    "satori": "^0.26.0"
+  }
+}

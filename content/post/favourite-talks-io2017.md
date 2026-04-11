@@ -1,6 +1,7 @@
 +++
 date = "2017-05-31T23:10:36+03:00"
 title = "My favourite talks at Google IO 2017"
+image = "/img/og/favourite-talks-io2017.png"
 onmain = false
 
 +++

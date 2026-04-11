@@ -3,6 +3,7 @@ date = "2020-11-01T14:36:40+03:00"
 description = ""
 draft = false
 title = "Swift + Kotlin = ❤️"
+image = "/img/og/kotlin-plus-swift-equals-love.png"
 onmain = true
 comments = true
 +++

@@ -35,7 +35,7 @@ Let me introduce two libraries:
 * [Compact Compact Language Detector 3 (ccld3)](https://github.com/andriydruk/ccld3)
 * [Compact FastText](https://github.com/andriydruk/compact-fasttext)
 
-Both libraries are written in pure C. They have zero dependencies and no external files, with all weights embedded directly in the source. For the build system, I provide CMake and my beloved SPM, but you can integrate them however you like.
+Both libraries are written in pure C. They have zero dependencies and no external files, with all weights embedded directly in the source. For the build system, I provide CMake and my beloved SwiftPM, but you can integrate them however you like.
 
 In other words, "compact" here means four things:
 

@@ -2,6 +2,7 @@
 date = "2026-03-31T00:00:00+03:00"
 title = "Open Source Report"
 subtitle = "March 2026"
+slug = "2026-03"
 draft = false
 image = "/img/og/oss-report-march-2026.png"
 comments = true

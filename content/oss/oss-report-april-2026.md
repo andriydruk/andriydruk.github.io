@@ -12,11 +12,15 @@ Rare event - I actually wrote a blog post. **[Compact Compact Language Detector]
 
 Another big month for **LMPlayground** - seven releases shipped to Google Play, adding system prompts, full localization in 28 languages, a device-language-aware model catalog, generation speed metrics, and a RAM-fit gate that blocks oversized models before they crash low-memory phones. The whole release pipeline is now fully automated with **fastlane**: store listing, "What's New" notes, and Paparazzi-generated marketing screenshots all roll out from a single push, in all 28 locales.
 
-Two new Spark-related projects shipped their **1.0.0**: **spark-cli-skills** packages 13 AI-agent recipes for the Spark CLI, and **spark-claude-extension** wraps Spark as a Claude Desktop MCP bundle.
+Two new Spark-related projects shipped their **1.0.0**: 
+
+- **[spark-cli-skills](https://github.com/readdle/spark-cli-skills)** packages 13 AI-agent recipes for the Spark CLI
+- **[spark-claude-extension](https://github.com/readdle/spark-claude-extension)** wraps Spark as a Claude Desktop MCP bundle.
 
 Two new sites went live:
-* **[druk.me](https://druk.me/)** as a new personal domain (front page only for now).
-* **[lmplayground.app](https://lmplayground.app/)** as the landing page for LMPlayground (also localized in 28 languages)
+
+- **[druk.me](https://druk.me/)** as a new personal domain (front page only for now).
+- **[lmplayground.app](https://lmplayground.app/)** as the landing page for LMPlayground (also localized in 28 languages)
 
 ## LMPlayground
 
